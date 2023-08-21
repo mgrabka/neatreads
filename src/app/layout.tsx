@@ -5,7 +5,6 @@ import { LayoutProps } from "@/types"
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import SiteHeader from "@/components/site-header"
 import TailwindIndicator from "@/components/tailwind-indicator"
 
 export const metadata: Metadata = {
