@@ -2,7 +2,7 @@ import Link from "next/link"
 
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import { SignUpForm } from "@/app/(auth)/sign-up/sign-up-form"
+import { SignUpForm } from "@/app/auth/sign-up/form"
 
 export default function SignUpPage() {
   return (
@@ -41,7 +41,7 @@ export default function SignUpPage() {
       <p className="text-center text-sm text-muted-foreground">
         Already have an account? {""}
         <Link
-          href="/sign-in"
+          href="/auth/sign-in"
           className="underline underline-offset-4 hover:text-primary"
         >
           Sign in
