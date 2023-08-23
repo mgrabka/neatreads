@@ -12,6 +12,7 @@ const AuthLayout = ({ children }: LayoutProps) => {
         <Image
           src="/assets/auth-books.jpg"
           fill={true}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: "cover" }}
           alt="Books stacked on top of each other"
         />

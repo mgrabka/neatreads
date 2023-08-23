@@ -1,15 +1,30 @@
 import { NextResponse, type NextRequest } from "next/server"
+import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
 
-// const user = "maks"
-const user = null
+import type { Database } from "@/types/database"
 
-export const middleware = (request: NextRequest) => {
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient<Database>({ req, res })
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
   if (
-    request.nextUrl.pathname.startsWith("/sign-in") ||
-    request.nextUrl.pathname.startsWith("/sign-up")
+    req.nextUrl.pathname.startsWith("/auth/sign-in") ||
+    req.nextUrl.pathname.startsWith("/auth/sign-up")
   ) {
-    if (user != null) {
-      return NextResponse.redirect(new URL(`/${user}/library`, request.url))
+    if (session) {
+      return NextResponse.redirect(new URL(`/maks/library`, req.url))
     }
   }
+  return res
 }
+
+// if (
+//   req.nextUrl.pathname.startsWith("/sign-in") ||
+//   req.nextUrl.pathname.startsWith("/sign-up")
+// ) {
+//   if (user != null) {
+//     return NextResponse.redirect(new URL(`/${user}/library`, req.url))
+//   }
+// }

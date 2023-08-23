@@ -1,11 +1,14 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { AlertCircle, Loader2 } from "lucide-react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { z } from "zod"
 
+import { Database } from "@/types/database"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -30,6 +33,8 @@ const formSchema = z.object({
 })
 
 export function SignInForm({ className, ...props }: SignInFormProps) {
+  const supabase = createClientComponentClient<Database>()
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -40,11 +45,14 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
     reValidateMode: "onSubmit",
   })
   const onSubmit: SubmitHandler<FormData> = async (formData: FormData) => {
-    try {
-      console.log(formData)
-    } catch (error) {
-      throw error
+    const { data: _, error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    })
+    if (error) {
+      return console.log(error)
     }
+    router.refresh()
   }
 
   return (
