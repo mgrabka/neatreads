@@ -37,6 +37,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -52,7 +53,10 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
       },
     })
     if (error) {
-      return console.log(error)
+      setError("email", { message: error.message })
+      setError("password", { message: error.message })
+      console.log(error)
+      return
     }
     router.push("/")
   }
