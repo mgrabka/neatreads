@@ -38,6 +38,7 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -50,7 +51,9 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
       password: formData.password,
     })
     if (error) {
-      return console.log(error)
+      setError("email", { message: error.message })
+      setError("password", { message: error.message })
+      return
     }
     router.refresh()
   }
