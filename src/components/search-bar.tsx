@@ -2,8 +2,12 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { Search } from "lucide-react"
 
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+
+import { Label } from "./ui/label"
 
 const SearchBar = () => {
   const [query, setQuery] = useState("")
@@ -17,7 +21,7 @@ const SearchBar = () => {
     }
   }
   return (
-    <div>
+    <div className="flex items-center space-x-2">
       <Input
         type="search"
         placeholder="Search books..."
@@ -26,6 +30,9 @@ const SearchBar = () => {
         onKeyDown={handleKeyDown}
         className="md:w-[300px] lg:w-[600px]"
       />
+      <Button type="button" onClick={handleSearch}>
+        <Search size={16} />
+      </Button>
     </div>
   )
 }
