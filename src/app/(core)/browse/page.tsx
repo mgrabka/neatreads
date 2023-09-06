@@ -52,7 +52,7 @@ const BrowsePage = () => {
 const BookCard = ({ book }: { book: Book }) => {
   return (
     <Card className="flex flex-row">
-      <div>
+      <div className="min-h-[148px] min-w-[96px]">
         <Image
           className="shrink-0 rounded-l object-cover"
           width={96}
