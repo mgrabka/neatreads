@@ -7,6 +7,7 @@ import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import TailwindIndicator from "@/components/tailwind-indicator"
 
+export const dynamic = "force-dynamic"
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
