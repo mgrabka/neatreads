@@ -1,5 +1,5 @@
 import {
-  Fraunces as FontHeader,
+  Literata as FontHeader,
   JetBrains_Mono as FontMono,
   Inter as FontSans,
 } from "next/font/google"

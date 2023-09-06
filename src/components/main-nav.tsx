@@ -5,7 +5,7 @@ import { BookOpen } from "lucide-react"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 
-import { Search } from "./search"
+import SearchBar from "./search-bar"
 
 const username = "maks"
 
@@ -34,7 +34,7 @@ const MainNav = () => {
           My library
         </Link>
       </nav>
-      <Search />
+      <SearchBar />
     </div>
   )
 }
