@@ -1,28 +1,18 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Image from "next/image"
-import { useSearchParams } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { Book } from "@/types"
 
-import { fontHeader } from "@/lib/fonts"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import BookCard from "./book-card"
 
 const BrowsePage = () => {
   const [books, setBooks] = useState([])
   const searchParams = useSearchParams()
   const query = searchParams.get("q")
-
   useEffect(() => {
     if (query) {
-      fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`)
+      fetch(`${location.origin}/api/v1/books/list?q=${query}`)
         .then((response) => response.json())
         .then((data) => {
           setBooks(data.items)
@@ -35,60 +25,28 @@ const BrowsePage = () => {
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <h1>Search Results for &ldquo;{query}&rdquo;</h1>
+      <h1 className="text-muted-foreground">
+        Search Results for &ldquo;{query}&rdquo;
+      </h1>
       <ul>
         <div className="grid gap-2">
-          {books.map((book: Book) => (
-            <li key={book.id}>
-              <BookCard book={book} />
-            </li>
-          ))}
+          {books.length > 0 ? (
+            <ul>
+              <div className="grid gap-2">
+                {books.map((book: Book) => (
+                  <li key={book.id}>
+                    <BookCard book={book} />
+                  </li>
+                ))}
+              </div>
+            </ul>
+          ) : (
+            <p>Couldn&apos;t fetch books right now. Try again in a minute.</p>
+          )}
         </div>
       </ul>
     </section>
   )
 }
 
-const BookCard = ({ book }: { book: Book }) => {
-  return (
-    <Card className="flex flex-row">
-      <div className="min-h-[148px] min-w-[96px]">
-        <Image
-          className="shrink-0 rounded-l object-cover"
-          width={96}
-          height={148}
-          src={book.volumeInfo.imageLinks?.thumbnail}
-          alt=""
-          onError={(e) => {
-            e.currentTarget.style.display = "none"
-          }}
-        />
-        <div
-          className="shrink-0 rounded-l bg-gray-300"
-          style={{
-            width: 96,
-            height: 148,
-            display: book.volumeInfo.imageLinks?.thumbnail ? "none" : "block",
-          }}
-        />
-      </div>
-      <div className="grow">
-        <CardHeader>
-          <CardTitle>
-            <h1 className={fontHeader.className}>{book.volumeInfo.title}</h1>
-          </CardTitle>
-          <CardDescription>
-            by{" "}
-            {book.volumeInfo.authors
-              ? book.volumeInfo.authors.join(", ")
-              : "Unknown Author"}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>[todo: ratings, set reading status, go to page etc.]</p>
-        </CardContent>
-      </div>
-    </Card>
-  )
-}
 export default BrowsePage
