@@ -1,24 +1,32 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { usePathname, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { Book } from "@/types"
 
-import BookCard from "./book-card"
+import { BookCard, SkeletonCard } from "./book-card"
+
+type LoadingState = "idle" | "loading" | "loaded" | "error"
 
 const BrowsePage = () => {
   const [books, setBooks] = useState([])
+  const [loadingState, setLoadingState] = useState<LoadingState>("idle")
   const searchParams = useSearchParams()
   const query = searchParams.get("q")
+
   useEffect(() => {
+    setLoadingState("loading")
+
     if (query) {
       fetch(`${location.origin}/api/v1/books/list?q=${query}`)
         .then((response) => response.json())
         .then((data) => {
           setBooks(data.items)
+          setLoadingState("loaded")
         })
         .catch((error) => {
           console.error(error)
+          setLoadingState("error")
         })
     }
   }, [query])
@@ -30,7 +38,18 @@ const BrowsePage = () => {
       </h1>
       <ul>
         <div className="grid gap-2">
-          {books.length > 0 ? (
+          {loadingState === "loading" && (
+            <ul>
+              <div className="grid gap-2">
+                {Array.from({ length: 10 }).map((_, idx) => (
+                  <li key={idx}>
+                    <SkeletonCard />
+                  </li>
+                ))}
+              </div>
+            </ul>
+          )}
+          {loadingState === "loaded" && books.length > 0 && (
             <ul>
               <div className="grid gap-2">
                 {books.map((book: Book) => (
@@ -40,7 +59,8 @@ const BrowsePage = () => {
                 ))}
               </div>
             </ul>
-          ) : (
+          )}
+          {loadingState === "error" && (
             <p>Couldn&apos;t fetch books right now. Try again in a minute.</p>
           )}
         </div>

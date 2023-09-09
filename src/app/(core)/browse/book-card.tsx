@@ -8,8 +8,9 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
 
-const BookCard = ({ book }: { book: Book }) => {
+export const BookCard = ({ book }: { book: Book }) => {
   return (
     <Card className="flex flex-row items-center">
       <div className="relative pl-2">
@@ -95,4 +96,33 @@ const BookCard = ({ book }: { book: Book }) => {
     </Card>
   )
 }
-export default BookCard
+
+export const SkeletonCard = () => {
+  return (
+    <div className="border-muted-foreground">
+      <div className="flex flex-row p-2">
+        <Skeleton className="h-[148px] w-[96px] rounded-lg" />
+        <div className="flex flex-col">
+          <div className="space-y-4 p-6">
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-[250px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+            <Skeleton className="h-3 w-[100px]" />
+          </div>
+          <div className="pl-6">
+            <div className="flex flex-row space-x-4">
+              <div className="flex flex-col space-y-2">
+                <Skeleton className="h-2 w-[50px]" />
+                <Skeleton className="h-4 w-[50px]" />
+              </div>
+              <div>
+                <Skeleton className="h-8 w-[150px]" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
