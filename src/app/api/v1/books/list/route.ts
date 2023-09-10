@@ -5,9 +5,10 @@ export async function GET(req: NextRequest) {
   const query = searchParams.get("q")
   const apiKey = process.env.GOOGLE_BOOKS_API_KEY
 
-  const response = await fetch(
-    `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`
+  const books = await fetch(
+    `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`,
+    { cache: "force-cache" }
   )
 
-  return NextResponse.json(await response.json())
+  return NextResponse.json(await books.json())
 }
