@@ -7,28 +7,28 @@ export async function generateMetadata({
 }: {
   params: { bookId: string }
 }): Promise<Metadata> {
-  const book: Book = await fetch(
+  const response = await fetch(
     `https://www.googleapis.com/books/v1/volumes/${params.bookId}`
   )
-    .then((res) => res.json())
-    .catch((error) => {
-      console.error(error)
-    })
+
+  if (!response.ok) {
+    throw new Error(`Couldn't find book with id ${params.bookId}`)
+  }
+
+  const book: Book = await response.json()
 
   return {
     title: book.volumeInfo.title + " by " + book.volumeInfo.authors.join(", "),
   }
 }
 const BookPage = async ({ params }: { params: { bookId: string } }) => {
-  const book: Book = await fetch(
+  const response = await fetch(
     `https://www.googleapis.com/books/v1/volumes/${params.bookId}`
   )
-    .then((res) => res.json())
-    .catch((error) => {
-      console.error(error)
-    })
+
+  const book: Book = await response.json()
   return (
-    <section className="grid items-center gap-6 pb-8 pt-6 md:py-10">
+    <section className="grid items-center gap-6">
       <div className="h-[444px] w-[288px] overflow-hidden rounded-3xl bg-white shadow-lg ">
         <Image
           className=" h-full w-full object-cover"
