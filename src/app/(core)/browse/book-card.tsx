@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { Book } from "@/types"
 import { BookmarkPlus, Check } from "lucide-react"
 import ReactStars from "react-stars"
@@ -14,7 +15,7 @@ export const BookCard = ({ book }: { book: Book }) => {
   return (
     <Card className="flex flex-row items-center">
       <div className="relative pl-2">
-        <div className="h-[148px] w-[96px] overflow-hidden rounded-lg bg-white shadow-2xl ">
+        <div className="h-[148px] w-[96px] overflow-hidden rounded-lg bg-white shadow-md ">
           {book.volumeInfo.imageLinks?.thumbnail ? (
             <Image
               className=" h-full w-full object-cover"
@@ -37,9 +38,13 @@ export const BookCard = ({ book }: { book: Book }) => {
                 ? book.volumeInfo.authors.join(", ")
                 : "Unknown Author"}
             </p>
-            <p className={cn("text-base font-semibold", fontHeader.className)}>
-              {book.volumeInfo.title}
-            </p>
+            <Link href={`/books/${book.id}`}>
+              <p
+                className={cn("text-base font-semibold", fontHeader.className)}
+              >
+                {book.volumeInfo.title}
+              </p>
+            </Link>
           </div>
           <div className="flex items-center space-x-2">
             <ReactStars

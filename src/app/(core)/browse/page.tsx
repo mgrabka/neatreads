@@ -32,7 +32,7 @@ const BrowsePage = () => {
   }, [query])
 
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+    <section className="grid items-center gap-6 pb-8 pt-6 md:py-10">
       <h1 className="text-muted-foreground">
         Search Results for &ldquo;{query}&rdquo;
       </h1>
