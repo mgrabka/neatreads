@@ -2,13 +2,15 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import { Book } from "@/types"
 
+const apiKey = process.env.GOOGLE_BOOKS_API_KEY
+
 export async function generateMetadata({
   params,
 }: {
   params: { bookId: string }
 }): Promise<Metadata> {
   const response = await fetch(
-    `https://www.googleapis.com/books/v1/volumes/${params.bookId}`
+    `https://www.googleapis.com/books/v1/volumes/${params.bookId}?key=${apiKey}`
   )
 
   if (!response.ok) {
@@ -23,7 +25,7 @@ export async function generateMetadata({
 }
 const BookPage = async ({ params }: { params: { bookId: string } }) => {
   const response = await fetch(
-    `https://www.googleapis.com/books/v1/volumes/${params.bookId}`
+    `https://www.googleapis.com/books/v1/volumes/${params.bookId}?key=${apiKey}`
   )
 
   const book: Book = await response.json()
