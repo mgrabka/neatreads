@@ -2,11 +2,14 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import { Book } from "@/types"
 import { load } from "cheerio"
+import { BookmarkPlus } from "lucide-react"
 
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
 import BookDescription from "./book-description"
+import BookRatings from "./book-ratings"
 
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY
 
@@ -57,20 +60,60 @@ const BookPage = async ({ params }: { params: { bookId: string } }) => {
         />
       </div>
       <div className="flex flex-col gap-8">
-        <div>
-          <h1 className="text-muted-foreground">
-            by {book.volumeInfo.authors.join(", ")}
-          </h1>
-          <h1
-            className={cn(
-              "text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl",
-              fontHeader.className
-            )}
-          >
-            {book.volumeInfo.title}
-          </h1>
+        <div className="flex flex-col gap-2">
+          <div>
+            <h1 className="text-muted-foreground">
+              by {book.volumeInfo.authors.join(", ")}
+            </h1>
+            <h1
+              className={cn(
+                "text-3xl font-bold leading-tight tracking-tighter md:text-4xl",
+                fontHeader.className
+              )}
+            >
+              {book.volumeInfo.title}
+            </h1>
+          </div>
+          <BookRatings
+            bookAvgRating={book.volumeInfo.averageRating}
+            bookRatingsCount={book.volumeInfo.ratingsCount}
+          />
         </div>
+
         <BookDescription descriptionArray={descriptionArray} />
+        {/* <Button
+          onClick={() => console.log("clicked")}
+          size="sm"
+          variant="outline"
+        >
+          <BookmarkPlus className="mr-2" /> Add to library
+        </Button> */}
+        <div className="space-y-2 text-sm">
+          <div className="flex">
+            <div className="w-1/4 font-bold">ISBN</div>
+            <div className="w-3/4">
+              {book.volumeInfo.industryIdentifiers
+                ?.map((id) => id.identifier + " (" + id.type + ")")
+                .join(", ")}
+            </div>
+          </div>
+          <div className="flex">
+            <div className="w-1/4 font-bold">PUBLISHER</div>
+            <div className="w-3/4">{book.volumeInfo.publisher}</div>
+          </div>
+          <div className="flex">
+            <div className="w-1/4 font-bold">DATE PUBLISHED</div>
+            <div className="w-3/4">{book.volumeInfo.publishedDate}</div>
+          </div>
+          <div className="flex">
+            <div className="w-1/4 font-bold">LANGUAGE</div>
+            <div className="w-3/4">{book.volumeInfo.language}</div>
+          </div>
+          <div className="flex">
+            <div className="w-1/4 font-bold">PAGES</div>
+            <div className="w-3/4">{book.volumeInfo.pageCount}</div>
+          </div>
+        </div>
       </div>
     </section>
   )
