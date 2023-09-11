@@ -49,12 +49,12 @@ const BookPage = async ({ params }: { params: { bookId: string } }) => {
   const descriptionArray = parseHTMLDescription(book.volumeInfo.description)
 
   return (
-    <section className="flex gap-12">
-      <div className="h-[444px] w-[288px] overflow-hidden rounded-3xl bg-white shadow-lg ">
+    <section className="flex flex-col gap-12 md:flex-row">
+      <div className="h-[444px] w-[288px] overflow-hidden rounded-3xl bg-white shadow-lg md:min-h-[444px] md:min-w-[288px]">
         <Image
-          className=" h-full w-full object-cover"
-          width={444}
-          height={288}
+          className="h-full w-full object-cover"
+          width={288}
+          height={444}
           src={`https://books.google.com/books/publisher/content/images/frontcover/${params.bookId}?fife=w288-h444&source=gbs_api`}
           alt={book.volumeInfo.title}
         />
