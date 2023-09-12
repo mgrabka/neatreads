@@ -30,7 +30,12 @@ export async function generateMetadata({
   const book: Book = await response.json()
 
   return {
-    title: book.volumeInfo.title + " by " + book.volumeInfo.authors.join(", "),
+    title:
+      book.volumeInfo.title +
+      " by " +
+      (book.volumeInfo.authors
+        ? book.volumeInfo.authors.join(", ")
+        : "Unknown Author"),
   }
 }
 
@@ -67,7 +72,10 @@ const BookPage = async ({ params }: { params: { bookId: string } }) => {
           <div className="flex flex-col gap-2">
             <div>
               <h1 className="text-muted-foreground">
-                by {book.volumeInfo.authors.join(", ")}
+                by{" "}
+                {book.volumeInfo.authors
+                  ? book.volumeInfo.authors.join(", ")
+                  : "Unknown Author"}
               </h1>
               <h1
                 className={cn(

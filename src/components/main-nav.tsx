@@ -13,7 +13,9 @@ const MainNav = () => {
         <BookOpen className="h-6 w-6" />
         <span className="inline-block font-bold">{siteConfig.name}</span>
       </Link>
-      <SearchBar />
+      <div className="hidden sm:block">
+        <SearchBar />
+      </div>
     </div>
   )
 }
