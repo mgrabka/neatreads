@@ -1,7 +1,7 @@
 import {
   Literata as FontHeader,
   JetBrains_Mono as FontMono,
-  Inter as FontSans,
+  Work_Sans as FontSans,
 } from "next/font/google"
 
 export const fontSans = FontSans({

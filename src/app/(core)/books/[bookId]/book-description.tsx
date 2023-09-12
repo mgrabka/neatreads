@@ -4,20 +4,12 @@ import { useState } from "react"
 
 import { cn } from "@/lib/utils"
 
-const BookDescription = ({
-  descriptionArray,
-}: {
-  descriptionArray: string[]
-}) => {
+const BookDescription = ({ description }: { description: string }) => {
   const [showFull, setShowFull] = useState(false)
 
   const toggleFullDescription = () => {
     setShowFull(!showFull)
   }
-
-  const displayedDescription = showFull
-    ? descriptionArray
-    : descriptionArray.slice(0, 4)
 
   return (
     <div>
@@ -26,13 +18,11 @@ const BookDescription = ({
           "relative max-w-[700px]",
           showFull
             ? "text-muted-foreground"
-            : "bg-gradient-to-b from-muted-foreground bg-clip-text text-transparent"
+            : "line-clamp-[7] overflow-hidden bg-gradient-to-b from-muted-foreground bg-clip-text text-transparent"
         )}
       >
         <p className=" whitespace-pre-wrap text-justify text-sm">
-          <span className="font-semibold">{displayedDescription[0]}</span>
-          {"\n"}
-          {displayedDescription.slice(1).join("\n")}
+          {description}
         </p>
       </div>
 

@@ -7,6 +7,7 @@ import { BookmarkPlus } from "lucide-react"
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 
 import BookDescription from "./book-description"
 import BookRatings from "./book-ratings"
@@ -36,7 +37,7 @@ export async function generateMetadata({
 const parseHTMLDescription = (description: string) => {
   const $ = load(description)
   $("br").replaceWith("\n")
-  return $.text().split("\n") as string[]
+  return $.text() as string
 }
 
 const BookPage = async ({ params }: { params: { bookId: string } }) => {
@@ -46,75 +47,79 @@ const BookPage = async ({ params }: { params: { bookId: string } }) => {
 
   const book: Book = await response.json()
 
-  const descriptionArray = parseHTMLDescription(book.volumeInfo.description)
+  const description = parseHTMLDescription(book.volumeInfo.description)
 
   return (
-    <section className="flex flex-col gap-12 md:flex-row">
-      <div className="h-[444px] w-[288px] overflow-hidden rounded-3xl bg-white shadow-lg md:min-h-[444px] md:min-w-[288px]">
-        <Image
-          className="h-full w-full object-cover"
-          width={288}
-          height={444}
-          src={`https://books.google.com/books/publisher/content/images/frontcover/${params.bookId}?fife=w288-h444&source=gbs_api`}
-          alt={book.volumeInfo.title}
-        />
-      </div>
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
-          <div>
-            <h1 className="text-muted-foreground">
-              by {book.volumeInfo.authors.join(", ")}
-            </h1>
-            <h1
-              className={cn(
-                "text-3xl font-bold leading-tight tracking-tighter md:text-4xl",
-                fontHeader.className
-              )}
-            >
-              {book.volumeInfo.title}
-            </h1>
-          </div>
-          <BookRatings
-            bookAvgRating={book.volumeInfo.averageRating}
-            bookRatingsCount={book.volumeInfo.ratingsCount}
+    <section>
+      <section className="flex flex-col gap-12 md:flex-row">
+        <div className="h-[444px] w-[288px] overflow-hidden rounded-3xl bg-white shadow-lg md:min-h-[444px] md:min-w-[288px]">
+          <Image
+            className="h-full w-full object-cover"
+            width={288}
+            height={444}
+            src={`https://books.google.com/books/publisher/content/images/frontcover/${params.bookId}?fife=w288-h444&source=gbs_api`}
+            alt={book.volumeInfo.title}
           />
         </div>
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-2">
+            <div>
+              <h1 className="text-muted-foreground">
+                by {book.volumeInfo.authors.join(", ")}
+              </h1>
+              <h1
+                className={cn(
+                  "text-3xl font-bold leading-tight tracking-tighter md:text-4xl",
+                  fontHeader.className
+                )}
+              >
+                {book.volumeInfo.title}
+              </h1>
+            </div>
+            <BookRatings
+              bookAvgRating={book.volumeInfo.averageRating}
+              bookRatingsCount={book.volumeInfo.ratingsCount}
+            />
+          </div>
 
-        <BookDescription descriptionArray={descriptionArray} />
-        {/* <Button
+          <BookDescription description={description} />
+          {/* <Button
           onClick={() => console.log("clicked")}
           size="sm"
           variant="outline"
         >
           <BookmarkPlus className="mr-2" /> Add to library
         </Button> */}
-        <div className="space-y-2 text-sm">
-          <div className="flex">
-            <div className="w-1/4 font-bold">ISBN</div>
-            <div className="w-3/4">
-              {book.volumeInfo.industryIdentifiers
-                ?.map((id) => id.identifier + " (" + id.type + ")")
-                .join(", ")}
+          <div className="space-y-2 text-sm">
+            <div className="flex">
+              <div className="w-1/4 font-bold">ISBN</div>
+              <div className="w-3/4">
+                {book.volumeInfo.industryIdentifiers
+                  ?.map((id) => id.identifier + " (" + id.type + ")")
+                  .join(", ")}
+              </div>
+            </div>
+            <div className="flex">
+              <div className="w-1/4 font-bold">PUBLISHER</div>
+              <div className="w-3/4">{book.volumeInfo.publisher}</div>
+            </div>
+            <div className="flex">
+              <div className="w-1/4 font-bold">DATE PUBLISHED</div>
+              <div className="w-3/4">{book.volumeInfo.publishedDate}</div>
+            </div>
+            <div className="flex">
+              <div className="w-1/4 font-bold">LANGUAGE</div>
+              <div className="w-3/4">{book.volumeInfo.language}</div>
+            </div>
+            <div className="flex">
+              <div className="w-1/4 font-bold">PAGES</div>
+              <div className="w-3/4">{book.volumeInfo.pageCount}</div>
             </div>
           </div>
-          <div className="flex">
-            <div className="w-1/4 font-bold">PUBLISHER</div>
-            <div className="w-3/4">{book.volumeInfo.publisher}</div>
-          </div>
-          <div className="flex">
-            <div className="w-1/4 font-bold">DATE PUBLISHED</div>
-            <div className="w-3/4">{book.volumeInfo.publishedDate}</div>
-          </div>
-          <div className="flex">
-            <div className="w-1/4 font-bold">LANGUAGE</div>
-            <div className="w-3/4">{book.volumeInfo.language}</div>
-          </div>
-          <div className="flex">
-            <div className="w-1/4 font-bold">PAGES</div>
-            <div className="w-3/4">{book.volumeInfo.pageCount}</div>
-          </div>
         </div>
-      </div>
+      </section>
+      <Separator className="mt-20" />
+      <section></section>
     </section>
   )
 }

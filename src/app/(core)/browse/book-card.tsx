@@ -55,19 +55,17 @@ export const BookCard = ({ book }: { book: Book }) => {
               color2="#FBBF24"
               edit={false}
             />
-            <div className="ml-1 text-xs">
-              <span>
+            <div className="ml-1 text-xs text-muted-foreground">
+              <p>
                 {book.volumeInfo.averageRating
                   ? book.volumeInfo.averageRating.toFixed(1)
-                  : 0}
-              </span>{" "}
-              <span className="text-muted-foreground">
-                (
+                  : 0}{" "}
+                /{" "}
                 {book.volumeInfo.ratingsCount
                   ? book.volumeInfo.ratingsCount
-                  : 0}
-                )
-              </span>
+                  : 0}{" "}
+                ratings
+              </p>
             </div>
           </div>
         </CardHeader>

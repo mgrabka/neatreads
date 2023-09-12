@@ -19,11 +19,11 @@ const BookRatings = ({
         color2="#FBBF24"
         edit={false}
       />
-      <div className="ml-1 text-xs">
-        <span>{bookAvgRating ? bookAvgRating.toFixed(1) : 0}</span>{" "}
-        <span className="text-muted-foreground">
-          ({bookRatingsCount ? bookRatingsCount : 0})
-        </span>
+      <div className="text-muted-foreground">
+        <p>
+          {bookAvgRating ? bookAvgRating.toFixed(1) : 0} /{" "}
+          {bookRatingsCount ? bookRatingsCount : 0} ratings
+        </p>
       </div>
     </div>
   )
