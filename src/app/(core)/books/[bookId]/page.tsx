@@ -47,7 +47,9 @@ const BookPage = async ({ params }: { params: { bookId: string } }) => {
 
   const book: Book = await response.json()
 
-  const description = parseHTMLDescription(book.volumeInfo.description)
+  const description = book.volumeInfo.description
+    ? parseHTMLDescription(book.volumeInfo.description)
+    : "No description"
 
   return (
     <section>
@@ -61,7 +63,7 @@ const BookPage = async ({ params }: { params: { bookId: string } }) => {
             alt={book.volumeInfo.title}
           />
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex w-full flex-col gap-8">
           <div className="flex flex-col gap-2">
             <div>
               <h1 className="text-muted-foreground">
