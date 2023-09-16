@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { Book } from "@/types"
 import { BookmarkPlus, Check } from "lucide-react"
-import ReactStars from "react-stars"
 
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
@@ -10,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
+import BookRatings from "@/components/book-ratings"
 
 export const BookCard = ({ book }: { book: Book }) => {
   return (
@@ -59,28 +59,7 @@ export const BookCard = ({ book }: { book: Book }) => {
               </p>
             </Link>
           </div>
-          <div className="flex items-center space-x-2">
-            <ReactStars
-              count={5}
-              value={book.volumeInfo.averageRating}
-              size={12}
-              color1="#D1D5DB"
-              color2="#FBBF24"
-              edit={false}
-            />
-            <div className="ml-1 text-xs text-muted-foreground">
-              <p>
-                {book.volumeInfo.averageRating
-                  ? book.volumeInfo.averageRating.toFixed(1)
-                  : 0}{" "}
-                /{" "}
-                {book.volumeInfo.ratingsCount
-                  ? book.volumeInfo.ratingsCount
-                  : 0}{" "}
-                ratings
-              </p>
-            </div>
-          </div>
+          <BookRatings bookId={book.id} />
         </CardHeader>
         <CardContent>
           <div className="row flex h-8 items-center space-x-4">

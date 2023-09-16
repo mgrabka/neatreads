@@ -2,15 +2,14 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import { Book } from "@/types"
 import { load } from "cheerio"
-import { BookmarkPlus } from "lucide-react"
 
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 
+import BookRatings from "../../../../components/book-ratings"
 import BookDescription from "./book-description"
-import BookRatings from "./book-ratings"
+import BookManagement from "./book-management"
 
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY
 
@@ -59,14 +58,17 @@ const BookPage = async ({ params }: { params: { bookId: string } }) => {
   return (
     <section>
       <section className="flex flex-col gap-12 md:flex-row">
-        <div className="h-[444px] w-[288px] overflow-hidden rounded-3xl bg-white shadow-lg md:min-h-[444px] md:min-w-[288px]">
-          <Image
-            className="h-full w-full object-cover"
-            width={288}
-            height={444}
-            src={`https://books.google.com/books/publisher/content/images/frontcover/${params.bookId}?fife=w288-h444&source=gbs_api`}
-            alt={book.volumeInfo.title}
-          />
+        <div className="flex flex-col">
+          <div className="h-[444px] w-[288px] overflow-hidden rounded-3xl bg-white shadow-lg md:min-h-[444px] md:min-w-[288px]">
+            <Image
+              className="h-full w-full object-cover"
+              width={288}
+              height={444}
+              src={`https://books.google.com/books/publisher/content/images/frontcover/${params.bookId}?fife=w288-h444&source=gbs_api`}
+              alt={book.volumeInfo.title}
+            />
+          </div>
+          <BookManagement />
         </div>
         <div className="flex w-full flex-col gap-8">
           <div className="flex flex-col gap-2">
@@ -86,20 +88,10 @@ const BookPage = async ({ params }: { params: { bookId: string } }) => {
                 {book.volumeInfo.title}
               </h1>
             </div>
-            <BookRatings
-              bookAvgRating={book.volumeInfo.averageRating}
-              bookRatingsCount={book.volumeInfo.ratingsCount}
-            />
+            <BookRatings bookId={book.id} large={true} />
           </div>
 
           <BookDescription description={description} />
-          {/* <Button
-          onClick={() => console.log("clicked")}
-          size="sm"
-          variant="outline"
-        >
-          <BookmarkPlus className="mr-2" /> Add to library
-        </Button> */}
           <div className="space-y-2 text-sm">
             <div className="flex">
               <div className="w-1/4 font-bold">ISBN</div>

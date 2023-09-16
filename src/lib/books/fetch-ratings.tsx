@@ -1,6 +1,6 @@
 import supabase from "../supabase"
 
-const fetchRatings = async (bookId: string) => {
+export const fetchRatings = async (bookId: string) => {
   const fetchResponse = await supabase
     .from("ratings")
     .select("rating")
@@ -11,5 +11,3 @@ const fetchRatings = async (bookId: string) => {
   }
   return fetchResponse.data
 }
-
-export default fetchRatings
