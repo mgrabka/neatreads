@@ -32,11 +32,21 @@ export const BookCard = ({ book }: { book: Book }) => {
       <div className="grow">
         <CardHeader>
           <div>
-            <p className="line-clamp-1 text-xs font-medium text-muted-foreground">
+            <p className="text-xs font-medium text-muted-foreground">
               by{" "}
               {book.volumeInfo.authors
-                ? book.volumeInfo.authors.join(", ")
-                : "Unknown Author"}
+                ? book.volumeInfo.authors.map((author, idx, arr) => (
+                    <span key={author}>
+                      <a
+                        href={`/browse?q=inauthor:${author}`}
+                        className="hover:underline hover:underline-offset-2"
+                      >
+                        {author}
+                      </a>
+                      {idx !== arr.length - 1 && ", "}
+                    </span>
+                  ))
+                : "Unknown Authors"}
             </p>
             <Link href={`/books/${book.id}`}>
               <p
