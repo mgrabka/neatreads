@@ -21,18 +21,22 @@ const SearchBar = () => {
     }
   }
   return (
-    <div className="flex items-center space-x-2">
+    <div className="relative flex items-center">
       <Input
         type="search"
         placeholder="Search books..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        className="md:w-[300px] lg:w-[600px]"
+        className="pl-3 pr-10 md:w-[400px]"
       />
-      <Button type="button" onClick={handleSearch}>
+      <button
+        type="button"
+        onClick={handleSearch}
+        className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-primary"
+      >
         <Search size={16} />
-      </Button>
+      </button>
     </div>
   )
 }
