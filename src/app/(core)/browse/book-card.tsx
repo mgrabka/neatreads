@@ -32,7 +32,7 @@ export const BookCard = ({ book }: { book: Book }) => {
       <div className="grow">
         <CardHeader>
           <div>
-            <p className="text-xs font-medium text-muted-foreground">
+            <p className="line-clamp-1 text-xs font-medium text-muted-foreground">
               by{" "}
               {book.volumeInfo.authors
                 ? book.volumeInfo.authors.join(", ")
@@ -40,7 +40,10 @@ export const BookCard = ({ book }: { book: Book }) => {
             </p>
             <Link href={`/books/${book.id}`}>
               <p
-                className={cn("text-base font-semibold", fontHeader.className)}
+                className={cn(
+                  "line-clamp-1 text-sm font-semibold hover:underline hover:underline-offset-2",
+                  fontHeader.className
+                )}
               >
                 {book.volumeInfo.title}
               </p>
