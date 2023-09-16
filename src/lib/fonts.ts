@@ -1,5 +1,5 @@
 import {
-  Literata as FontHeader,
+  Libre_Baskerville as FontHeader,
   JetBrains_Mono as FontMono,
   Work_Sans as FontSans,
 } from "next/font/google"
@@ -15,6 +15,7 @@ export const fontMono = FontMono({
 })
 
 export const fontHeader = FontHeader({
+  weight: "700",
   subsets: ["latin"],
   variable: "--font-header",
 })
