@@ -38,7 +38,7 @@ const TabsLayout = ({
       <div>
         <div
           className={cn(
-            "row flex gap-10 px-3 font-medium text-muted-foreground",
+            "flex gap-10 px-3 font-medium text-muted-foreground",
             fontHeader.className
           )}
         >

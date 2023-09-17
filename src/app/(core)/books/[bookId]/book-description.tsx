@@ -22,13 +22,11 @@ const BookDescription = ({ description }: { description: string }) => {
         className={cn(
           "relative w-full",
           showFull || !shouldBeExpandable
-            ? "text-muted-foreground"
-            : "line-clamp-[12] overflow-hidden bg-gradient-to-b from-muted-foreground bg-clip-text text-transparent"
+            ? "text-primary"
+            : "line-clamp-[12] overflow-hidden bg-gradient-to-b from-primary bg-clip-text text-transparent"
         )}
       >
-        <p className=" whitespace-pre-wrap text-justify text-sm">
-          {description}
-        </p>
+        <p className=" whitespace-pre-wrap text-justify">{description}</p>
       </div>
       {shouldBeExpandable ? (
         <button

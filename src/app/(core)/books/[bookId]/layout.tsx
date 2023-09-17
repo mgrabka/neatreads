@@ -4,9 +4,8 @@ import { Book } from "@/types"
 
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import BookManagement from "@/components/book-management"
 import BookStars from "@/components/book-stars"
-
-import BookManagement from "./book-management"
 
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY
 
@@ -47,10 +46,10 @@ const BookLayout = async ({
 }) => {
   const book: Book = await fetchBook(params.bookId)
   return (
-    <section>
+    <section className="flex flex-col gap-8">
       <section className="flex flex-col gap-12 md:flex-row">
-        <div className="flex flex-col">
-          <div className="h-[305px] w-[198px] overflow-hidden rounded-md border bg-white md:min-h-[305px] md:min-w-[198px]">
+        <div className="flex flex-col justify-center">
+          <div className=" h-[305px] w-[198px] overflow-hidden rounded-md border bg-white md:min-h-[305px] md:min-w-[198px]">
             <Image
               className="h-full w-full object-cover"
               width={198}
@@ -81,16 +80,16 @@ const BookLayout = async ({
               </p>
               <h1
                 className={cn(
-                  "line-clamp-4 py-2 text-2xl font-bold leading-normal tracking-tighter md:text-4xl",
+                  "line-clamp-4 py-0.5 text-2xl font-bold leading-loose tracking-tighter md:text-4xl",
                   fontHeader.className
                 )}
               >
                 {book.volumeInfo.title}
               </h1>
-              <BookStars bookId={book.id} large={true} />
+              <BookStars bookId={book.id} />
             </div>
             <div className="w-full">
-              <BookManagement />
+              <BookManagement book={book} />
             </div>
           </div>
         </div>

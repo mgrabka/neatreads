@@ -20,9 +20,15 @@ const DescriptionPage = async ({ params }: { params: { bookId: string } }) => {
 
   const description = book.volumeInfo.description
     ? parseHTMLDescription(book.volumeInfo.description)
-    : "No description"
+    : null
 
-  return <BookDescription description={description} />
+  return description ? (
+    <BookDescription description={description} />
+  ) : (
+    <div className="relative flex w-full items-center justify-center text-base text-muted-foreground">
+      <p>There is no description</p>
+    </div>
+  )
 }
 
 export default DescriptionPage

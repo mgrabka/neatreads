@@ -50,7 +50,7 @@ const BrowsePage = () => {
         )}
         {loadingState === "loaded" && books.length > 0 && (
           <ul>
-            <div className="grid gap-2">
+            <div className="grid gap-4">
               {books.map((book: Book) => (
                 <li key={book.id}>
                   <BookCard book={book} />

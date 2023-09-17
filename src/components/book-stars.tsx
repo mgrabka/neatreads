@@ -11,10 +11,10 @@ const ReactStars = dynamic(() => import("react-stars"), {
 
 const BookStars = ({
   bookId,
-  large = false,
+  isInBrowse = false,
 }: {
   bookId: string
-  large?: boolean
+  isInBrowse?: boolean
 }) => {
   const [bookAvgRating, setBookAvgRating] = useState(0)
   const [bookRatingsCount, setBookRatingsCount] = useState(0)
@@ -37,20 +37,15 @@ const BookStars = ({
       <ReactStars
         count={5}
         value={bookAvgRating}
-        size={large ? 18 : 12}
+        size={18}
         color1="#D1D5DB"
         color2="#FBBF24"
         edit={false}
       />
-      {large ? (
-        <div className="ml-1 text-muted-foreground">
-          <p>
-            {bookAvgRating ? bookAvgRating.toFixed(1) : 0} / {bookRatingsCount}{" "}
-            ratings
-          </p>
-        </div>
+      {isInBrowse ? (
+        <></>
       ) : (
-        <div className="ml-1 text-xs text-muted-foreground">
+        <div className="ml-1 text-muted-foreground">
           <p>
             {bookAvgRating ? bookAvgRating.toFixed(1) : 0} / {bookRatingsCount}{" "}
             ratings
