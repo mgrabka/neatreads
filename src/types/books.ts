@@ -98,3 +98,13 @@ export interface Book {
     textSnippet: string
   }
 }
+
+export interface Review {
+  body: string
+  id: string
+  rating: number
+  rating_id: number
+  created_at: string
+  updated_at: string
+  user_id: string
+}

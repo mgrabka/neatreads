@@ -12,7 +12,7 @@ const BookDescription = ({ description }: { description: string }) => {
     setShowFull(!showFull)
   }
   useEffect(() => {
-    if (description.length > 500) {
+    if (description.length > 600) {
       setShouldBeExpandable(true)
     }
   }, [description])
@@ -23,7 +23,7 @@ const BookDescription = ({ description }: { description: string }) => {
           "relative w-full",
           showFull || !shouldBeExpandable
             ? "text-muted-foreground"
-            : "line-clamp-[7] overflow-hidden bg-gradient-to-b from-muted-foreground bg-clip-text text-transparent"
+            : "line-clamp-[12] overflow-hidden bg-gradient-to-b from-muted-foreground bg-clip-text text-transparent"
         )}
       >
         <p className=" whitespace-pre-wrap text-justify text-sm">

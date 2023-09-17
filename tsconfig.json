@@ -29,7 +29,8 @@
     "env.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/app/(core)/not-found.js"
   ],
   "exclude": ["node_modules"]
 }

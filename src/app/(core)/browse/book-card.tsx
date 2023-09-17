@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
-import BookRatings from "@/components/book-ratings"
+import BookStars from "@/components/book-stars"
 
 export const BookCard = ({ book }: { book: Book }) => {
   return (
     <Card className="flex flex-row items-center">
       <div className="relative pl-2">
-        <div className="h-[148px] w-[96px] overflow-hidden rounded-lg bg-white shadow-md ">
+        <div className="h-[148px] w-[96px] overflow-hidden rounded-lg border bg-white ">
           {book.volumeInfo.imageLinks?.thumbnail ? (
             <Image
               className=" h-full w-full object-cover"
@@ -51,7 +51,7 @@ export const BookCard = ({ book }: { book: Book }) => {
             <Link href={`/books/${book.id}`}>
               <p
                 className={cn(
-                  "line-clamp-1 text-sm font-semibold hover:underline hover:underline-offset-2",
+                  "line-clamp-1 text-base font-semibold hover:underline hover:underline-offset-2",
                   fontHeader.className
                 )}
               >
@@ -59,7 +59,7 @@ export const BookCard = ({ book }: { book: Book }) => {
               </p>
             </Link>
           </div>
-          <BookRatings bookId={book.id} />
+          <BookStars bookId={book.id} />
         </CardHeader>
         <CardContent>
           <div className="row flex h-8 items-center space-x-4">

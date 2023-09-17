@@ -1,11 +1,15 @@
 "use client"
 
-import { use, useEffect, useState } from "react"
-import ReactStars from "react-stars"
+import { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 
 import { fetchRatings, getAvgRating } from "@/lib/books"
 
-const BookRatings = ({
+const ReactStars = dynamic(() => import("react-stars"), {
+  ssr: false,
+})
+
+const BookStars = ({
   bookId,
   large = false,
 }: {
@@ -57,4 +61,4 @@ const BookRatings = ({
   )
 }
 
-export default BookRatings
+export default BookStars

@@ -15,7 +15,7 @@ export const fontMono = FontMono({
 })
 
 export const fontHeader = FontHeader({
-  weight: "700",
+  weight: "400",
   subsets: ["latin"],
   variable: "--font-header",
 })
