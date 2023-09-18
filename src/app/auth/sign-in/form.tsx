@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
@@ -65,7 +66,7 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
           <div className="grid gap-6">
             <div className="grid gap-4">
               <div>
-                <Label className="sr-only" htmlFor="email">
+                <Label className="text-muted-foreground" htmlFor="email">
                   Email
                 </Label>
                 <div className="relative">
@@ -97,7 +98,7 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
                 </div>
               </div>
               <div>
-                <Label className="sr-only" htmlFor="password">
+                <Label className="text-muted-foreground" htmlFor="password">
                   Password
                 </Label>
                 <div className="relative">
@@ -131,12 +132,23 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
                 </div>
               </div>
             </div>
-            <Button disabled={isSubmitting}>
-              {isSubmitting && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Sign In
-            </Button>
+            <div className="flex items-center justify-between">
+              <Button className="w-[160px]" disabled={isSubmitting}>
+                {isSubmitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                <p className="px-5">Sign in</p>
+              </Button>
+              <p className="text-center text-sm text-muted-foreground ">
+                or{" "}
+                <Link
+                  href="/auth/sign-up"
+                  className="text-muted-foreground underline underline-offset-4 hover:text-primary"
+                >
+                  Sign up
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </form>

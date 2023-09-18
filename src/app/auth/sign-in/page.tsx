@@ -7,29 +7,20 @@ import { SignInForm } from "@/app/auth/sign-in/form"
 export default function SignInPage() {
   return (
     <div className="grid gap-6">
-      <div className="grid gap-2 text-center">
+      <div className="grid gap-2 text-left">
         <h1
           className={cn(
             "text-2xl font-semibold tracking-tight",
             fontHeader.className
           )}
         >
-          Welcome back
+          Sign in to Neatreads
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter your credentials to sign in
+          We missed you! Enter your credentials below to sign in
         </p>
       </div>
       <SignInForm />
-      <p className=" text-center text-sm text-muted-foreground">
-        Don&apos;t have an account? {""}
-        <Link
-          href="/auth/sign-up"
-          className="underline underline-offset-4 hover:text-primary"
-        >
-          Sign up
-        </Link>
-      </p>
     </div>
   )
 }

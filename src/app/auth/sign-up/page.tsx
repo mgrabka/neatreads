@@ -7,7 +7,7 @@ import { SignUpForm } from "@/app/auth/sign-up/form"
 export default function SignUpPage() {
   return (
     <div className="grid gap-6">
-      <div className="grid gap-2 text-center">
+      <div className="grid gap-2 text-left">
         <h1
           className={cn(
             "text-2xl font-semibold tracking-tight",
@@ -21,7 +21,7 @@ export default function SignUpPage() {
         </p>
       </div>
       <SignUpForm />
-      <p className="px-8 text-center text-xs text-muted-foreground">
+      <p className="text-left text-xs text-muted-foreground">
         By creating an account you agree to our{" "}
         <Link
           href="/terms"
@@ -37,15 +37,6 @@ export default function SignUpPage() {
           Privacy Policy
         </Link>
         .
-      </p>
-      <p className="text-center text-sm text-muted-foreground">
-        Already have an account? {""}
-        <Link
-          href="/auth/sign-in"
-          className="underline underline-offset-4 hover:text-primary"
-        >
-          Sign in
-        </Link>
       </p>
     </div>
   )

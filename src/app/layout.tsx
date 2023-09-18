@@ -5,6 +5,7 @@ import { LayoutProps } from "@/types"
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
 import TailwindIndicator from "@/components/tailwind-indicator"
 
 export const dynamic = "force-dynamic"
@@ -37,6 +38,7 @@ const RootLayout = ({ children }: LayoutProps) => {
           )}
         >
           {children}
+          <Toaster />
           <TailwindIndicator />
         </body>
       </html>

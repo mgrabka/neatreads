@@ -1,32 +1,29 @@
-import Image from "next/image"
+import Link from "next/link"
 import { LayoutProps } from "@/types"
+import { MoveLeft } from "lucide-react"
+
+import ParallaxImage from "./parallax-image"
 
 const AuthLayout = ({ children }: LayoutProps) => {
   return (
     <div className="relative flex h-screen w-screen select-none items-center justify-center md:justify-start">
-      <div className="flex h-screen shrink-0 flex-col justify-center md:px-16">
-        <div className="p-8 sm:w-[400px]">{children}</div>
+      <div className="flex h-screen flex-1 flex-col items-center justify-center">
+        <div className="p-8 sm:w-[400px]">
+          {children}
+          <div className="mt-12">
+            <Link
+              className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-primary "
+              href="/"
+            >
+              <MoveLeft className="h-4 w-4" />
+              <span>go to home screen</span>
+            </Link>
+          </div>
+        </div>
       </div>
-
-      <div className="relative hidden h-full grow md:block">
-        <Image
-          src="/assets/auth-books.jpg"
-          fill={true}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{ objectFit: "cover" }}
-          alt="Books stacked on top of each other"
-        />
-        <div className="absolute inset-0 bg-orange-950 opacity-50"></div>
-      </div>
+      <ParallaxImage />
     </div>
   )
 }
 
 export default AuthLayout
-//return (
-//   <div className="relative flex min-h-screen items-center justify-center">
-//   <div className="absolute top-1/2 -translate-y-1/2 space-y-6 p-8 sm:w-[400px]">
-//     {children}
-//   </div>
-// </div>
-// )

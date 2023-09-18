@@ -1,39 +1,24 @@
 "use client"
 
-import { read } from "fs"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Book } from "@/types"
 import {
   User,
   createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs"
-import { BookMarked, BookOpen, Check, ChevronDown } from "lucide-react"
+import { BookMarked, BookOpen, Check } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator"
 
 type readingStatus = "Want to Read" | "Currently Reading" | "Read"
-const handleReadingStatus = (status: string) => {}
-// const ManageButton = async ({ book }: { book: Book }) => {
-//   const user = await supabase.auth.getUser()
-//   console.log(user)
-//   if (user) {
-//   }
-// }
 
 const BookManagement = ({ book }: { book: Book }) => {
   const supabase = createClientComponentClient()
   const [user, setUser] = useState<User | null>(null)
   const [readingStatus, setReadingStatus] = useState<readingStatus | null>(null)
+  const router = useRouter()
   useEffect(() => {
     const getUserAndStatus = async () => {
       const {
@@ -64,8 +49,9 @@ const BookManagement = ({ book }: { book: Book }) => {
 
   const handleReadingStatus = async (status: readingStatus) => {
     if (!user) {
-      return
+      return router.push("/auth/sign-up")
     }
+
     if (status == readingStatus) {
       const { error } = await supabase
         .from("reading_statuses")
@@ -79,6 +65,7 @@ const BookManagement = ({ book }: { book: Book }) => {
 
       return setReadingStatus(null)
     }
+
     setReadingStatus(status)
 
     const { error } = await supabase
@@ -87,6 +74,7 @@ const BookManagement = ({ book }: { book: Book }) => {
         { book_id: book.id, user_id: user.id, status },
         { onConflict: "book_id, user_id" }
       )
+
     if (error) {
       console.error(error)
     }
