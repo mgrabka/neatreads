@@ -4,13 +4,10 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Search } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-import { Label } from "./ui/label"
-
-const SearchBar = () => {
-  const [query, setQuery] = useState("")
+const SearchBar = ({ initialQuery }: { initialQuery?: string }) => {
+  const [query, setQuery] = useState(initialQuery ?? "")
   const router = useRouter()
   const handleSearch = () => {
     router.push(`/browse?q=${query}`)
@@ -21,14 +18,14 @@ const SearchBar = () => {
     }
   }
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex w-full items-center">
       <Input
         type="search"
         placeholder="Search books..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        className="pl-3 pr-10 md:w-[400px]"
+        className="w-full pr-10"
       />
       <button
         type="button"

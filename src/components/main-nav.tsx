@@ -13,7 +13,7 @@ const MainNav = () => {
         <BookOpen className="h-6 w-6" />
         <span className="inline-block font-bold">{siteConfig.name}</span>
       </Link>
-      <div className="hidden sm:block">
+      <div className="hidden sm:block md:w-[500px]">
         <SearchBar />
       </div>
     </div>

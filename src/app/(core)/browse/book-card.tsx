@@ -10,7 +10,7 @@ export const BookCard = ({ book }: { book: Book }) => {
   return (
     <Link href={`/books/${book.id}`}>
       <div className="flex h-full flex-col gap-2 rounded-xl border py-2 hover:bg-muted">
-        <div className="flex h-full flex-row gap-4 px-2">
+        <div className="flex h-full flex-row gap-8 px-2">
           <div className="relative">
             <div className="h-[111px] w-[72px] overflow-hidden rounded-lg border bg-white ">
               {book.volumeInfo.imageLinks?.thumbnail ? (
