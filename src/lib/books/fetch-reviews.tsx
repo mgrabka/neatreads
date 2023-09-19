@@ -1,6 +1,7 @@
-import supabase from "../supabase"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 export const fetchReviews = async (bookId: string) => {
+  const supabase = createClientComponentClient()
   const ratingsResponse = await supabase
     .from("ratings")
     .select("*")
