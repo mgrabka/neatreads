@@ -14,10 +14,10 @@ const SignOutButton = () => {
     if (error) {
       return console.log(error)
     }
-    router.refresh()
+    location.reload()
   }
   return (
-    <button className="flex items-center" onClick={handleSignOut}>
+    <button className="flex h-full w-full items-center" onClick={handleSignOut}>
       <LogOut className="mr-2 h-4 w-4" /> Sign Out
     </button>
   )
