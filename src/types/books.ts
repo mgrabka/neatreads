@@ -114,3 +114,5 @@ export interface SearchResult {
   totalItems: number
   items: Book[]
 }
+
+export type readingStatus = "Want to Read" | "Currently Reading" | "Read"

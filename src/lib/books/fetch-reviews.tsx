@@ -2,24 +2,25 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 export const fetchReviews = async (bookId: string) => {
   const supabase = createClientComponentClient()
-  const ratingsResponse = await supabase
+  const fetchRatingsResponse = await supabase
     .from("ratings")
     .select("*")
     .eq("book_id", bookId)
 
-  const ratingsArray = ratingsResponse.data?.map((rating) => rating.id) ?? []
+  const ratingsArray =
+    fetchRatingsResponse.data?.map((rating) => rating.id) ?? []
 
-  const reviewsResponse = await supabase
+  const fetchReviewsResponse = await supabase
     .from("reviews")
     .select("*")
     .in("rating_id", ratingsArray)
 
-  const ratingsMap = ratingsResponse.data?.reduce((acc, rating) => {
+  const ratingsMap = fetchRatingsResponse.data?.reduce((acc, rating) => {
     acc[rating.id] = rating
     return acc
   }, {})
 
-  const reviewsArray = reviewsResponse.data?.map((review) => {
+  const reviewsArray = fetchReviewsResponse.data?.map((review) => {
     const associatedRating = ratingsMap[review.rating_id]
     return {
       ...review,

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Book } from "@/types"
+import { Book, readingStatus } from "@/types"
 import {
   User,
   createClientComponentClient,
@@ -11,8 +11,6 @@ import { BookMarked, BookOpen, Check } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-
-type readingStatus = "Want to Read" | "Currently Reading" | "Read"
 
 const BookManagement = ({ book }: { book: Book }) => {
   const supabase = createClientComponentClient()
@@ -81,7 +79,7 @@ const BookManagement = ({ book }: { book: Book }) => {
   }
 
   return (
-    <div className="flex justify-center gap-6 sm:justify-start">
+    <div className="flex justify-start gap-6">
       <div>
         <Button
           onClick={() => handleReadingStatus("Want to Read")}

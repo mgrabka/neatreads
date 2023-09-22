@@ -48,20 +48,18 @@ const BookLayout = async ({
   const book: Book = await fetchBook(params.bookId)
   return (
     <section className="flex flex-col gap-8">
-      <section className="flex flex-col gap-12 md:flex-row">
-        <div className="flex flex-col justify-center">
-          <div className=" h-[305px] w-[198px] overflow-hidden rounded-md border bg-white md:min-h-[305px] md:min-w-[198px]">
-            <Image
-              className="h-full w-full object-cover"
-              width={198}
-              height={305}
-              src={`https://books.google.com/books/publisher/content/images/frontcover/${params.bookId}?fife=w288-h444&source=gbs_api`}
-              alt={book.volumeInfo.title}
-            />
-          </div>
+      <section className="flex flex-col gap-12 sm:flex-row">
+        <div className="h-[305px] w-[198px] shrink-0 overflow-hidden rounded-md border bg-white">
+          <Image
+            className="h-full w-full object-cover"
+            width={198}
+            height={305}
+            src={`https://books.google.com/books/publisher/content/images/frontcover/${params.bookId}?fife=w288-h444&source=gbs_api`}
+            alt={book.volumeInfo.title}
+          />
         </div>
-        <div className="flex w-full flex-col gap-8">
-          <div className="flex h-[305px] flex-col justify-between">
+        <div className="flex w-full flex-col sm:gap-8">
+          <div className="flex flex-col sm:h-[305px] sm:justify-between">
             <div>
               <p className="font-medium text-muted-foreground">
                 by{" "}
@@ -81,7 +79,7 @@ const BookLayout = async ({
               </p>
               <h1
                 className={cn(
-                  "line-clamp-4 py-0.5 text-2xl font-bold leading-loose tracking-tighter md:text-4xl",
+                  "line-clamp-4 py-0.5 text-4xl font-bold leading-loose tracking-tighter",
                   fontHeader.className
                 )}
               >
@@ -89,7 +87,7 @@ const BookLayout = async ({
               </h1>
               <BookStars bookId={book.id} />
             </div>
-            <div className="w-full">
+            <div className="mt-12 w-full sm:mt-0">
               <BookManagement book={book} />
             </div>
           </div>

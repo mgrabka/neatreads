@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import { Review, UserProfile } from "@/types"
+import { Review, UserProfile, readingStatus } from "@/types"
 import {
   User,
   createClientComponentClient,
@@ -10,9 +10,13 @@ import {
 import Avatar from "boring-avatars"
 
 import { fetchReviews } from "@/lib/books"
+import { fetchUserRating } from "@/lib/books/fetch-user-rating"
+import { fontHeader } from "@/lib/fonts"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 
-import ReviewForm from "./review-form"
+import ReviewFormDialog from "./review-form-dialog"
 
 const ReactStars = dynamic(() => import("react-stars"), {
   ssr: false,
@@ -23,6 +27,8 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
   const [reviews, setReviews] = useState<Review[]>([])
   const [users, setUsers] = useState<UserProfile[]>([])
   const [user, setUser] = useState<User | null>(null)
+  const [readingStatus, setReadingStatus] = useState<readingStatus | null>(null)
+  const [rating, setRating] = useState<number>(0)
 
   useEffect(() => {
     const getReviews = async () => {
@@ -43,13 +49,65 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
       }
 
       setUser(session.user)
+
+      const fetchRatingResponse = await fetchUserRating(params.bookId)
+
+      if (fetchRatingResponse) {
+        setRating(fetchRatingResponse.rating)
+      }
+
+      const fetchReadingStatusResponse = await supabase
+        .from("reading_statuses")
+        .select("status")
+        .eq("book_id", params.bookId)
+        .eq("user_id", session.user.id)
+
+      if (
+        !fetchReadingStatusResponse.data ||
+        fetchReadingStatusResponse.data.length === 0
+      ) {
+        return
+      }
+
+      setReadingStatus(fetchReadingStatusResponse.data[0].status)
     }
     getReviews()
   }, [params.bookId, supabase])
 
+  const handleSubmitRating = async (newRating: number) => {
+    if (!user) {
+      return
+    }
+    if (readingStatus != "Read") {
+      setReadingStatus("Read")
+      return await supabase
+        .from("reading_statuses")
+        .upsert(
+          { book_id: params.bookId, user_id: user.id, status: "Read" },
+          { onConflict: "book_id, user_id" }
+        )
+    }
+    if (newRating == rating) {
+      setRating(0)
+      return await supabase
+        .from("ratings")
+        .delete()
+        .eq("book_id", params.bookId)
+        .eq("user_id", user.id)
+    }
+
+    setRating(newRating)
+    return await supabase
+      .from("ratings")
+      .upsert(
+        { book_id: params.bookId, user_id: user.id, rating: newRating },
+        { onConflict: "book_id, user_id" }
+      )
+  }
+
   return (
-    <div>
-      <div className="flex gap-8">
+    <div className="mt-4 flex flex-col gap-8 sm:flex-row sm:gap-4">
+      <div className="mr-5 mt-6 flex w-full flex-col gap-8 border-black sm:w-[400px]">
         <div className="shrink-0">
           <Avatar
             size={30}
@@ -58,7 +116,26 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
             colors={["#320139", "#331B3B", "#333E50", "#5C6E6E", "#F1DEBD"]}
           />
         </div>
-        <ReviewForm bookId={params.bookId} />
+        <div className="flex flex-col gap-6">
+          <h1 className={cn("text-xl font-semibold", fontHeader.className)}>
+            Let everyone know what you think!
+          </h1>
+          <div className="flex flex-col">
+            <p className="text-sm font-semibold text-muted-foreground">
+              Your rating
+            </p>
+            <ReactStars
+              count={5}
+              value={rating ?? 0}
+              size={24}
+              color1="#D1D5DB"
+              color2="#FBBF24"
+              edit={true}
+              onChange={(newRating) => handleSubmitRating(newRating)}
+            />
+          </div>
+          <ReviewFormDialog user={user} bookId={params.bookId} />
+        </div>
       </div>
       <div className="flex w-full flex-col gap-4">
         <ul>
@@ -93,7 +170,7 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
                         <div className="ml-2 min-w-[90px]">
                           <p className="text-sm text-muted-foreground">
                             {new Date(review.created_at).toLocaleDateString(
-                              "en-US",
+                              "en-GB",
                               {
                                 year: "numeric",
                                 month: "long",
