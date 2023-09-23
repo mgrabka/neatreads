@@ -83,6 +83,25 @@ ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Profiles are viewable by everyone." ON profiles FOR SELECT USING (true);
 CREATE POLICY "Everyone can insert a new profile" ON profiles FOR INSERT WITH CHECK (true);
 
+CREATE TABLE follows (
+    id serial PRIMARY KEY,
+    follower_id uuid NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+    followed_id uuid NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+    UNIQUE(follower_id, followed_id)
+);
+
+ALTER TABLE follows ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE follows
+ADD CONSTRAINT "Users must not be able to follow themselves."
+CHECK (follower_id <> followed_id);
+
+CREATE POLICY "Authenticated users can follow others." ON follows FOR INSERT TO authenticated WITH CHECK (true);
+CREATE POLICY "Users can update their own outcoming follows." ON follows FOR UPDATE USING (auth.uid() = follower_id);
+CREATE POLICY "Users can delete their own outcoming follows." ON follows FOR DELETE USING (auth.uid() = follower_id);
+CREATE POLICY "Follows are viewable by everyone." ON follows FOR SELECT USING (true);
+
+
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN

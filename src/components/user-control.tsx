@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { Button, buttonVariants } from "./ui/button"
+import { buttonVariants } from "./ui/button"
 import SignOutButton from "./ui/sign-out-button"
 
 const UserControl = async () => {
@@ -83,7 +83,7 @@ const UserControl = async () => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/user/${username}/profile`}>
+              <Link href={`/user/${username}`}>
                 <UserSquare2 className="mr-2 h-4 w-4" /> Profile
               </Link>
             </DropdownMenuItem>

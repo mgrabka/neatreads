@@ -79,7 +79,7 @@ const BookLayout = async ({
               </p>
               <h1
                 className={cn(
-                  "line-clamp-4 py-0.5 text-4xl font-bold leading-loose tracking-tighter",
+                  "line-clamp-4 pb-0.5 text-4xl font-bold tracking-tighter",
                   fontHeader.className
                 )}
               >
