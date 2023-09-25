@@ -78,19 +78,41 @@ EXECUTE FUNCTION add_follow_activity();
 
 CREATE OR REPLACE FUNCTION add_reading_status_activity()
 RETURNS TRIGGER AS $$
+DECLARE
+    last_activity_time TIMESTAMP;
 BEGIN
     IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
-        INSERT INTO activities(user_id, did_what, did_to_book_id)
-        VALUES (
-            NEW.user_id, 
-            (CASE 
-                WHEN NEW.status = 'Want to Read' THEN 'wants to read'
-                WHEN NEW.status = 'Currently Reading' THEN 'is currently reading'
-                WHEN NEW.status = 'Read' THEN 'read'
-                ELSE NULL
-            END)::activity_type, 
-            NEW.book_id
-        ); 
+        SELECT created_at INTO last_activity_time
+        FROM activities
+        WHERE user_id = NEW.user_id AND did_to_book_id = NEW.book_id
+        AND did_what IN ('wants to read', 'is currently reading', 'read')
+        ORDER BY created_at DESC
+        LIMIT 1;
+
+        IF last_activity_time IS NULL OR now() - last_activity_time >= interval '1 hour' THEN
+            INSERT INTO activities(user_id, did_what, did_to_book_id)
+            VALUES (
+                NEW.user_id, 
+                (CASE 
+                    WHEN NEW.status = 'Want to Read' THEN 'wants to read'
+                    WHEN NEW.status = 'Currently Reading' THEN 'is currently reading'
+                    WHEN NEW.status = 'Read' THEN 'read'
+                    ELSE NULL
+                END)::activity_type, 
+                NEW.book_id
+            );
+        ELSE
+            UPDATE activities
+            SET did_what = (CASE 
+                       WHEN NEW.status = 'Want to Read' THEN 'wants to read'
+                       WHEN NEW.status = 'Currently Reading' THEN 'is currently reading'
+                       WHEN NEW.status = 'Read' THEN 'read'
+                       ELSE NULL
+                   END)::activity_type
+            WHERE user_id = NEW.user_id 
+            AND did_to_book_id = NEW.book_id
+            AND created_at = last_activity_time;
+        END IF;   
         RETURN NEW;
     END IF;
     RETURN NULL;
@@ -101,5 +123,4 @@ CREATE TRIGGER trigger_add_reading_status_activity
 AFTER INSERT OR UPDATE ON reading_statuses
 FOR EACH ROW
 EXECUTE FUNCTION add_reading_status_activity();
-
 
