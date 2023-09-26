@@ -18,7 +18,7 @@ CREATE POLICY "Authenticated users can insert activities." ON activities FOR INS
 CREATE POLICY "Users can update their own activities." ON activities FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Activities are viewable by everyone." ON activities FOR SELECT USING (true);
 
-CREATE OR REPLACE FUNCTION add_rating_activity()
+CREATE OR REPLACE FUNCTION handle_rating_activity()
 RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
@@ -26,16 +26,21 @@ BEGIN
         VALUES (NEW.user_id, 'rated', NEW.book_id, NEW.rating); 
         RETURN NEW;
     END IF;
+    IF TG_OP = 'DELETE' THEN
+        DELETE FROM activities
+        WHERE user_id = OLD.user_id AND did_to_book_id = OLD.book_id;
+        RETURN OLD;
+    END IF;
     RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_add_rating_activity
-AFTER INSERT OR UPDATE ON ratings
+AFTER INSERT OR UPDATE OR DELETE ON ratings
 FOR EACH ROW
-EXECUTE FUNCTION add_rating_activity();
+EXECUTE FUNCTION handle_rating_activity();
 
-CREATE OR REPLACE FUNCTION add_review_activity()
+CREATE OR REPLACE FUNCTION handle_review_activity()
 RETURNS TRIGGER AS $$
 DECLARE
     v_user_id uuid;
@@ -50,31 +55,41 @@ BEGIN
         VALUES (v_user_id, 'reviewed', v_book_id); 
         RETURN NEW;
     END IF;
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_add_review_activity
-AFTER INSERT OR UPDATE ON reviews
-FOR EACH ROW
-EXECUTE FUNCTION add_review_activity();
-
-CREATE OR REPLACE FUNCTION add_follow_activity()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'INSERT' THEN
-        INSERT INTO activities(user_id, did_what, did_to_user_id)
-        VALUES (NEW.follower_id, 'reviewed', NEW.followed_id); 
-        RETURN NEW;
+    IF TG_OP = 'DELETE' THEN
+        DELETE FROM activities
+        WHERE user_id = v_user_id AND did_to_book_id = v_book_id;
+        RETURN OLD;
     END IF;
     RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_add_follow_activity
-AFTER INSERT ON follows
+CREATE TRIGGER trigger_add_review_activity
+AFTER INSERT OR UPDATE OR DELETE ON reviews
 FOR EACH ROW
-EXECUTE FUNCTION add_follow_activity();
+EXECUTE FUNCTION handle_review_activity();
+
+CREATE OR REPLACE FUNCTION handle_follow_activity()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        INSERT INTO activities(user_id, did_what, did_to_user_id)
+        VALUES (NEW.follower_id, 'followed', NEW.followed_id); 
+        RETURN NEW;
+    END IF;
+    IF TG_OP = 'DELETE' THEN
+        DELETE FROM activities
+        WHERE user_id = OLD.follower_id AND did_to_user_id = OLD.followed_id;
+        RETURN OLD;
+    END IF;
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_follow_activity
+AFTER INSERT OR DELETE ON follows
+FOR EACH ROW
+EXECUTE FUNCTION handle_follow_activity();
 
 CREATE OR REPLACE FUNCTION add_reading_status_activity()
 RETURNS TRIGGER AS $$
@@ -123,4 +138,3 @@ CREATE TRIGGER trigger_add_reading_status_activity
 AFTER INSERT OR UPDATE ON reading_statuses
 FOR EACH ROW
 EXECUTE FUNCTION add_reading_status_activity();
-
