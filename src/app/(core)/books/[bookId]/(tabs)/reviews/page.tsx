@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
+import Link from "next/link"
 import { Review, UserProfile, readingStatus } from "@/types"
 import {
   User,
@@ -140,64 +141,68 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
       <div className="flex w-full flex-col gap-4">
         <ul>
           {reviews && reviews.length > 0 ? (
-            reviews.map((review) => (
-              <li key={review.id}>
-                <div className="my-6 flex w-full">
-                  <div className="shrink-0">
-                    <Avatar
-                      size={30}
-                      name={review.user_id}
-                      variant="beam"
-                      colors={[
-                        "#320139",
-                        "#331B3B",
-                        "#333E50",
-                        "#5C6E6E",
-                        "#F1DEBD",
-                      ]}
-                    />
-                  </div>
-                  <div className="ml-8 flex grow flex-col justify-between">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-baseline">
-                        <h1 className="font-semibold">
-                          {
-                            users.filter(
-                              (user) => user.user_id === review.user_id
-                            )[0]?.username
-                          }
-                        </h1>
-                        <div className="ml-2 min-w-[90px]">
-                          <p className="text-sm text-muted-foreground">
-                            {new Date(review.created_at).toLocaleDateString(
-                              "en-GB",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )}
-                          </p>
+            reviews.map((review) => {
+              const matchingUser = users.find(
+                (user) => user.user_id === review.user_id
+              )
+              const username = matchingUser?.username
+              return (
+                <li key={review.id}>
+                  <div className="my-6 flex w-full">
+                    <div className="shrink-0">
+                      <Link href={`/user/${username}`}>
+                        <Avatar
+                          size={30}
+                          name={review.user_id}
+                          variant="beam"
+                          colors={[
+                            "#320139",
+                            "#331B3B",
+                            "#333E50",
+                            "#5C6E6E",
+                            "#F1DEBD",
+                          ]}
+                        />
+                      </Link>
+                    </div>
+                    <div className="ml-8 flex grow flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-baseline">
+                          <Link href={`/user/${username}`}>
+                            <h1 className="font-semibold">{username}</h1>
+                          </Link>
+                          <div className="ml-2 min-w-[90px]">
+                            <p className="text-sm text-muted-foreground">
+                              {new Date(review.created_at).toLocaleDateString(
+                                "en-GB",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                }
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="shrink-0">
+                          <ReactStars
+                            count={5}
+                            value={review.rating}
+                            size={18}
+                            color1="#D1D5DB"
+                            color2="#FBBF24"
+                            edit={false}
+                          />
                         </div>
                       </div>
-                      <div className="shrink-0">
-                        <ReactStars
-                          count={5}
-                          value={review.rating}
-                          size={18}
-                          color1="#D1D5DB"
-                          color2="#FBBF24"
-                          edit={false}
-                        />
-                      </div>
+                      <p className="mt-2 text-justify">{review.body}</p>
                     </div>
-                    <p className="mt-2 text-justify">{review.body}</p>
                   </div>
-                </div>
 
-                <Separator />
-              </li>
-            ))
+                  <Separator />
+                </li>
+              )
+            })
           ) : (
             <div className="relative flex w-full items-center justify-center text-base text-muted-foreground">
               <p>There are no reviews yet</p>
