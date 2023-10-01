@@ -165,7 +165,7 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
                         />
                       </Link>
                     </div>
-                    <div className="ml-8 flex grow flex-col justify-between">
+                    <div className="ml-6 flex grow flex-col justify-between">
                       <div className="flex items-center justify-between">
                         <div className="flex items-baseline">
                           <Link href={`/user/${username}`}>

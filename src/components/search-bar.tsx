@@ -25,7 +25,7 @@ const SearchBar = ({ initialQuery }: { initialQuery?: string }) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        className="w-full pr-10"
+        className="w-full rounded-lg pr-10"
       />
       <button
         type="button"

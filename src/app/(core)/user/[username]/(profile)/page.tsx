@@ -23,7 +23,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     return notFound()
   }
 
-  console.log(fetchUserProfileResponse.data)
   const profiledUser = fetchUserProfileResponse.data
   const {
     data: { user: visitor },
@@ -37,7 +36,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     }
   )
   const isOwn = visitor ? profiledUser.user_id === visitor.id : false
-  console.log(visitor, profiledUser, isOwn)
 
   const { count: followingCount } = await supabase
     .from("follows")
@@ -48,8 +46,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     .from("follows")
     .select("*", { count: "exact", head: true })
     .eq("followed_id", profiledUser.user_id)
-
-  console.log(followersCount, followingCount)
   return (
     <section className="grid gap-8">
       <div className="grid grid-cols-5">

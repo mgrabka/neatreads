@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import Image from "next/image"
-import AuthIllustration from "public/assets/reading-list.svg"
+import AuthIllustration from "public/assets/auth.svg"
 
 const ParallaxImage: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null)
