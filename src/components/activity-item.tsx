@@ -10,10 +10,13 @@ import StarsRating from "@/components/ui/stars-rating"
 
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY
 
-const ActivityItem = ({ activity, trackedProfiles }: any) => {
-  const originUser = trackedProfiles?.find(
-    (user: UserProfile) => user.user_id === activity.user_id
-  )
+const ActivityItem = async ({ activity }: any) => {
+  const supabase = createServerComponentClient<Database>({ cookies })
+  const { data: originUser } = await supabase
+    .from("profiles")
+    .select("username, user_id")
+    .eq("user_id", activity.user_id)
+    .single()
   return (
     <li key={activity.id}>
       <div className="flex w-full justify-between gap-2 py-5">
@@ -68,8 +71,60 @@ const ActionToBookDescription = async ({ originUser, activity }: any) => {
   const targetBook = await response.json()
 
   switch (activity.did_what) {
-    case "wants to read" || "is currently reading" || "read":
-      break
+    case "wants to read":
+      return (
+        <div className="flex flex-col">
+          <p>
+            <Link
+              href={`/user/${originUser?.username}`}
+              className="font-semibold"
+            >
+              {originUser?.username}
+            </Link>{" "}
+            wants to read{" "}
+            <Link href={`/books/${targetBookId}`} className="font-semibold">
+              {targetBook.volumeInfo.title}
+            </Link>
+            .
+          </p>
+        </div>
+      )
+    case "is currently reading":
+      return (
+        <div className="flex flex-col">
+          <p>
+            <Link
+              href={`/user/${originUser?.username}`}
+              className="font-semibold"
+            >
+              {originUser?.username}
+            </Link>{" "}
+            started reading{" "}
+            <Link href={`/books/${targetBookId}`} className="font-semibold">
+              {targetBook.volumeInfo.title}
+            </Link>
+            .
+          </p>
+        </div>
+      )
+    case "read":
+      return (
+        <div className="flex flex-col">
+          <p>
+            <Link
+              href={`/user/${originUser?.username}`}
+              className="font-semibold"
+            >
+              {originUser?.username}
+            </Link>{" "}
+            has read{" "}
+            <Link href={`/books/${targetBookId}`} className="font-semibold">
+              {targetBook.volumeInfo.title}
+            </Link>
+            .
+          </p>
+        </div>
+      )
     case "rated":
       return (
         <div className="flex flex-col">

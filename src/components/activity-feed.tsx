@@ -44,7 +44,6 @@ const ActivityFeed = async ({
   const { data: followedActivities } = await supabase
     .from("activities")
     .select("*")
-    .in("user_id", trackedUsers)
     .eq("did_what", "followed")
     .eq("did_to_user_id", user.id)
     .order("created_at", { ascending: false })
