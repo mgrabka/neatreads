@@ -1,7 +1,9 @@
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs"
 
-export const fetchReviews = async (bookId: string) => {
-  const supabase = createClientComponentClient()
+export const fetchReviews = async (
+  supabase: SupabaseClient,
+  bookId: string
+) => {
   const fetchRatingsResponse = await supabase
     .from("ratings")
     .select("*")
@@ -30,4 +32,24 @@ export const fetchReviews = async (bookId: string) => {
   })
 
   return reviewsArray
+}
+export const fetchSpecificReview = async (
+  supabase: SupabaseClient,
+  userId: string,
+  bookId: string
+) => {
+  const { data: rating } = await supabase
+    .from("ratings")
+    .select("*")
+    .eq("book_id", bookId)
+    .eq("user_id", userId)
+    .single()
+
+  const { data: review } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("rating_id", rating.id)
+    .single()
+
+  return review
 }

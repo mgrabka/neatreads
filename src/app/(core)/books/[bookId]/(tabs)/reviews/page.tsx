@@ -33,7 +33,7 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
 
   useEffect(() => {
     const getReviews = async () => {
-      const reviews = await fetchReviews(params.bookId)
+      const reviews = await fetchReviews(supabase, params.bookId)
       setReviews(reviews ?? [])
       if (reviews && reviews.length > 0) {
         const usersResponse = await supabase
