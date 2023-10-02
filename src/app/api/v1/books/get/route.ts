@@ -6,7 +6,8 @@ export async function GET(req: NextRequest) {
   const apiKey = process.env.GOOGLE_BOOKS_API_KEY
 
   const response = await fetch(
-    `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`
+    `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`,
+    { cache: "force-cache" }
   )
 
   return NextResponse.json(await response.json())

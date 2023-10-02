@@ -24,14 +24,6 @@ const AnonHomePage = () => {
         <SearchBar />
       </div>
       <div className="mt-12">
-        <h1
-          className={cn(
-            "text-xl font-semibold leading-tight tracking-tighter",
-            fontHeader.className
-          )}
-        >
-          Trending
-        </h1>
         <TrendingShowcase />
       </div>
     </section>
