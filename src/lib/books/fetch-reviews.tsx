@@ -48,7 +48,7 @@ export const fetchSpecificReview = async (
   const { data: review } = await supabase
     .from("reviews")
     .select("*")
-    .eq("rating_id", rating.id)
+    .eq("rating_id", rating?.id)
     .single()
 
   return review

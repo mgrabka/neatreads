@@ -8,7 +8,7 @@ INSERT INTO profiles ("user_id", "username") VALUES ('a0eebc99-9c0b-4ef8-bb6d-6b
 INSERT INTO ratings (book_id, user_id, rating, created_at, updated_at) VALUES
 ('zaRoX10_UsMC', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 4, NOW(), NOW()),
 ('RJxWIQOvoZUC', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 5, NOW(), NOW()),
-('gueZIor5UXYCC', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', 3, NOW(), NOW()),
+('gueZIor5UXYC', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', 3, NOW(), NOW()),
 ('gueZIor5UXYC', 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14', 5, NOW(), NOW()),
 ('gueZIor5UXYC', 'e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a15', 4, NOW(), NOW()),
 ('gueZIor5UXYC', 'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a16', 3.5, NOW(), NOW()),

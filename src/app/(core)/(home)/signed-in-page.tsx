@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils"
 import ActivityFeed from "@/components/activity-feed"
 import SearchBar from "@/components/search-bar"
 
+import TrendingShowcase from "./trending-showcase"
+
 const SignedInHomePage = async ({ user }: { user: User }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
   const {
@@ -47,6 +49,7 @@ const SignedInHomePage = async ({ user }: { user: User }) => {
         >
           Trending
         </h1>
+        <TrendingShowcase />
       </div>
       <div className="mt-12">
         <h1

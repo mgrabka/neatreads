@@ -2,6 +2,8 @@ import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import SearchBar from "@/components/search-bar"
 
+import TrendingShowcase from "./trending-showcase"
+
 const AnonHomePage = () => {
   return (
     <section className="relative grid gap-8">
@@ -30,6 +32,7 @@ const AnonHomePage = () => {
         >
           Trending
         </h1>
+        <TrendingShowcase />
       </div>
     </section>
   )
