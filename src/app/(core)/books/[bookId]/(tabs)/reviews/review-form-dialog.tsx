@@ -44,9 +44,11 @@ const FormSchema = z.object({
 })
 
 const ReviewFormDialog = ({
+  isDisabled,
   user,
   bookId,
 }: {
+  isDisabled: boolean
   user: User | null
   bookId: string
 }) => {
@@ -54,16 +56,11 @@ const ReviewFormDialog = ({
   const { toast } = useToast()
   const router = useRouter()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [isDisabled, setIsDisabled] = useState(true)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
-
-  useEffect(() => {
-    setIsDisabled(user == null)
-  }, [user])
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     if (user == null) {

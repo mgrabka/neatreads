@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { fetchRatings, getAvgRating } from "@/lib/books"
 
@@ -18,10 +19,10 @@ const BookStars = ({
 }) => {
   const [bookAvgRating, setBookAvgRating] = useState(0)
   const [bookRatingsCount, setBookRatingsCount] = useState(0)
-
+  const supabase = createClientComponentClient()
   useEffect(() => {
     const fetchRatingsData = async () => {
-      const ratings = await fetchRatings(bookId)
+      const ratings = await fetchRatings(supabase, bookId)
       if (ratings == null) {
         return setBookAvgRating(0), setBookRatingsCount(0)
       }
@@ -30,7 +31,7 @@ const BookStars = ({
       setBookRatingsCount(ratings.length)
     }
     fetchRatingsData()
-  }, [bookId])
+  }, [bookId, supabase])
 
   return (
     <div className="flex items-center space-x-2">

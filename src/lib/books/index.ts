@@ -1,3 +1,3 @@
-export * from "./fetch-ratings"
+export * from "./ratings"
 export * from "./get-avg-rating"
-export * from "./fetch-reviews"
+export * from "./reviews"

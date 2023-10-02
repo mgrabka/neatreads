@@ -7,9 +7,7 @@ CREATE TABLE activities (
     did_to_user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
     did_to_book_id varchar(20),
     rating_value numeric(2,1),
-    created_at timestamp with time zone NOT NULL DEFAULT now(),
-    UNIQUE(user_id, did_what, did_to_user_id),
-    UNIQUE(user_id, did_what, did_to_book_id)
+    created_at timestamp with time zone NOT NULL DEFAULT now()
 );
 
 ALTER TABLE activities ENABLE ROW LEVEL SECURITY;

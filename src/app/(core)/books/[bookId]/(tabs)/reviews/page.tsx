@@ -14,7 +14,6 @@ import { fetchReviews } from "@/lib/books"
 import { fetchUserRating } from "@/lib/books/fetch-user-rating"
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 
 import AnonFallback from "./anon-fallback"
@@ -31,6 +30,7 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
   const [user, setUser] = useState<User | null>(null)
   const [readingStatus, setReadingStatus] = useState<readingStatus | null>(null)
   const [rating, setRating] = useState<number>(0)
+  const [isReviewDisabled, setIsReviewDisabled] = useState<boolean>(true)
 
   useEffect(() => {
     const getReviews = async () => {
@@ -43,26 +43,27 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
         setUsers(usersResponse.data ?? [])
       }
       const {
-        data: { session },
-      } = await supabase.auth.getSession()
+        data: { user },
+      } = await supabase.auth.getUser()
 
-      if (!session) {
+      if (!user) {
         return
       }
 
-      setUser(session.user)
+      setUser(user)
 
       const fetchRatingResponse = await fetchUserRating(params.bookId)
 
       if (fetchRatingResponse) {
         setRating(fetchRatingResponse.rating)
+        setIsReviewDisabled(false)
       }
 
       const fetchReadingStatusResponse = await supabase
         .from("reading_statuses")
         .select("status")
         .eq("book_id", params.bookId)
-        .eq("user_id", session.user.id)
+        .eq("user_id", user.id)
 
       if (
         !fetchReadingStatusResponse.data ||
@@ -90,21 +91,31 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
         )
     }
     if (newRating == rating) {
-      setRating(0)
-      return await supabase
+      const deleteRatingResponse = await supabase
         .from("ratings")
         .delete()
         .eq("book_id", params.bookId)
         .eq("user_id", user.id)
+      if (!deleteRatingResponse.error) {
+        setRating(0)
+        setIsReviewDisabled(true)
+        return
+      }
     }
 
-    setRating(newRating)
-    return await supabase
+    const upsertRatingResponse = await supabase
       .from("ratings")
       .upsert(
         { book_id: params.bookId, user_id: user.id, rating: newRating },
         { onConflict: "book_id, user_id" }
       )
+    if (!upsertRatingResponse.error) {
+      setRating(newRating)
+      setIsReviewDisabled(false)
+      return
+    }
+    console.log(upsertRatingResponse.error)
+    return
   }
 
   return (
@@ -137,7 +148,11 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
                 onChange={(newRating) => handleSubmitRating(newRating)}
               />
             </div>
-            <ReviewFormDialog user={user} bookId={params.bookId} />
+            <ReviewFormDialog
+              isDisabled={isReviewDisabled}
+              user={user}
+              bookId={params.bookId}
+            />
           </div>
         ) : (
           <AnonFallback />
