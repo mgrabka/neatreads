@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 
+import AnonFallback from "./anon-fallback"
 import ReviewFormDialog from "./review-form-dialog"
 
 const ReactStars = dynamic(() => import("react-stars"), {
@@ -117,26 +118,30 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
             colors={["#320139", "#331B3B", "#333E50", "#5C6E6E", "#F1DEBD"]}
           />
         </div>
-        <div className="flex flex-col gap-6">
-          <h1 className={cn("text-xl font-semibold", fontHeader.className)}>
-            Let everyone know what you think!
-          </h1>
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold text-muted-foreground">
-              Your rating
-            </p>
-            <ReactStars
-              count={5}
-              value={rating ?? 0}
-              size={24}
-              color1="#D1D5DB"
-              color2="#FBBF24"
-              edit={true}
-              onChange={(newRating) => handleSubmitRating(newRating)}
-            />
+        {user ? (
+          <div className="flex flex-col gap-6">
+            <h1 className={cn("text-xl font-semibold", fontHeader.className)}>
+              Let everyone know what you think!
+            </h1>
+            <div className="flex flex-col">
+              <p className="text-sm font-semibold text-muted-foreground">
+                Your rating
+              </p>
+              <ReactStars
+                count={5}
+                value={rating ?? 0}
+                size={24}
+                color1="#D1D5DB"
+                color2="#FBBF24"
+                edit={true}
+                onChange={(newRating) => handleSubmitRating(newRating)}
+              />
+            </div>
+            <ReviewFormDialog user={user} bookId={params.bookId} />
           </div>
-          <ReviewFormDialog user={user} bookId={params.bookId} />
-        </div>
+        ) : (
+          <AnonFallback />
+        )}
       </div>
       <div className="flex w-full flex-col gap-4">
         <ul>
