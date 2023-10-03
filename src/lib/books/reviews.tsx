@@ -5,36 +5,19 @@ export const fetchReviews = async (
   bookId: string,
   page: number
 ) => {
-  const fetchRatingsResponse = await supabase
-    .from("ratings")
-    .select("*")
-    .eq("book_id", bookId)
-    .range((page - 1) * 10, page * 10 - 1)
-  // .range(10, 19)
-  console.log(fetchRatingsResponse)
-  const ratingsArray =
-    fetchRatingsResponse.data?.map((rating) => rating.id) ?? []
+  const offset = (page - 1) * 10
 
-  const fetchReviewsResponse = await supabase
-    .from("reviews")
-    .select("*")
-    .in("rating_id", ratingsArray)
-
-  const ratingsMap = fetchRatingsResponse.data?.reduce((acc, rating) => {
-    acc[rating.id] = rating
-    return acc
-  }, {})
-
-  const reviewsArray = fetchReviewsResponse.data?.map((review) => {
-    const associatedRating = ratingsMap[review.rating_id]
-    return {
-      ...review,
-      rating: associatedRating.rating,
-      user_id: associatedRating.user_id,
-    }
+  const { data, error } = await supabase.rpc("get_sorted_reviews", {
+    book_id_param: bookId,
+    offset_param: offset,
   })
 
-  return reviewsArray
+  if (error) {
+    console.error("Failed to fetch sorted reviews:", error)
+    return null
+  }
+
+  return data
 }
 
 export const fetchReviewsCount = async (
