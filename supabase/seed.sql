@@ -1,9 +1,36 @@
-INSERT INTO "auth"."users" ("id") VALUES ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'), ('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12'), ('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13'), ('d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14'),
+INSERT INTO "auth"."users" ("id") VALUES 
+('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'), 
+('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12'), 
+('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13'), 
+('d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14'),
 ('e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a15'),
-('f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a16');;
-INSERT INTO profiles ("user_id", "username") VALUES ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'johndoe'), ('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 'janedoe'), ('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', 'johndoejr'), ('d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14', 'janedoejr'),
+('f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a16'),
+('a1eebc99-9c0b-4ef8-bb6d-6bb9bd380a17'),
+('a2eebc99-9c0b-4ef8-bb6d-6bb9bd380a18'),
+('a3eebc99-9c0b-4ef8-bb6d-6bb9bd380a19'),
+('a4eebc99-9c0b-4ef8-bb6d-6bb9bd380a1a'),
+('a5eebc99-9c0b-4ef8-bb6d-6bb9bd380a1b'),
+('a6eebc99-9c0b-4ef8-bb6d-6bb9bd380a1c'),
+('a7eebc99-9c0b-4ef8-bb6d-6bb9bd380a1d'),
+('a8eebc99-9c0b-4ef8-bb6d-6bb9bd380a1e'),
+('a9eebc99-9c0b-4ef8-bb6d-6bb9bd380a1f');
+
+INSERT INTO profiles ("user_id", "username") VALUES 
+('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'johndoe'), 
+('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 'janedoe'), 
+('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', 'johndoejr'), 
+('d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14', 'janedoejr'),
 ('e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a15', 'johndoeiii'),
-('f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a16', 'janedoeiii');;
+('f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a16', 'janedoeiii'),
+('a1eebc99-9c0b-4ef8-bb6d-6bb9bd380a17', 'johndoeiv'),
+('a2eebc99-9c0b-4ef8-bb6d-6bb9bd380a18', 'janedoeiv'),
+('a3eebc99-9c0b-4ef8-bb6d-6bb9bd380a19', 'johndoev'),
+('a4eebc99-9c0b-4ef8-bb6d-6bb9bd380a1a', 'janedoev'),
+('a5eebc99-9c0b-4ef8-bb6d-6bb9bd380a1b', 'johndoevi'),
+('a6eebc99-9c0b-4ef8-bb6d-6bb9bd380a1c', 'janedoevi'),
+('a7eebc99-9c0b-4ef8-bb6d-6bb9bd380a1d', 'johndoevii'),
+('a8eebc99-9c0b-4ef8-bb6d-6bb9bd380a1e', 'janedoevii'),
+('a9eebc99-9c0b-4ef8-bb6d-6bb9bd380a1f', 'johndoeviii');
 
 INSERT INTO ratings (book_id, user_id, rating, created_at, updated_at) VALUES
 ('zaRoX10_UsMC', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 4, NOW(), NOW()),
@@ -13,7 +40,16 @@ INSERT INTO ratings (book_id, user_id, rating, created_at, updated_at) VALUES
 ('gueZIor5UXYC', 'e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a15', 4, NOW(), NOW()),
 ('gueZIor5UXYC', 'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a16', 3.5, NOW(), NOW()),
 ('gueZIor5UXYC', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 4.5, NOW(), NOW()),
-('gueZIor5UXYC', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 2, NOW(), NOW());
+('gueZIor5UXYC', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 2, NOW(), NOW()),
+('gueZIor5UXYC', 'a1eebc99-9c0b-4ef8-bb6d-6bb9bd380a17', 4.5, NOW(), NOW()),
+('gueZIor5UXYC', 'a2eebc99-9c0b-4ef8-bb6d-6bb9bd380a18', 3, NOW(), NOW()),
+('gueZIor5UXYC', 'a3eebc99-9c0b-4ef8-bb6d-6bb9bd380a19', 4, NOW(), NOW()),
+('gueZIor5UXYC', 'a4eebc99-9c0b-4ef8-bb6d-6bb9bd380a1a', 5, NOW(), NOW()),
+('gueZIor5UXYC', 'a5eebc99-9c0b-4ef8-bb6d-6bb9bd380a1b', 3.5, NOW(), NOW()),
+('gueZIor5UXYC', 'a6eebc99-9c0b-4ef8-bb6d-6bb9bd380a1c', 2.5, NOW(), NOW()),
+('gueZIor5UXYC', 'a7eebc99-9c0b-4ef8-bb6d-6bb9bd380a1d', 4, NOW(), NOW()),
+('gueZIor5UXYC', 'a8eebc99-9c0b-4ef8-bb6d-6bb9bd380a1e', 4.5, NOW(), NOW()),
+('gueZIor5UXYC', 'a9eebc99-9c0b-4ef8-bb6d-6bb9bd380a1f', 3, NOW(), NOW());
 
 INSERT INTO reviews (rating_id, body, created_at, updated_at) VALUES
 (1, 'Great book. I really enjoyed it!', NOW(), NOW()),
@@ -23,7 +59,15 @@ INSERT INTO reviews (rating_id, body, created_at, updated_at) VALUES
 (5, 'Very insightful. Gave me a new perspective.', NOW(), NOW()),
 (6, 'The content was good but the writing style wasn’t for me.', NOW(), NOW()),
 (7, 'Could not put it down! A must-read.', NOW(), NOW()),
-(8, 'Decent read. Some chapters felt a bit prolonged.', NOW(), NOW());
+(8, 'Decent read. Some chapters felt a bit prolonged.', NOW(), NOW()),
+(9, 'Interesting narrative but not really my cup of tea.', NOW(), NOW()),
+(10, 'A bit overhyped in my opinion. Still worth a read.', NOW(), NOW()),
+(11, 'Brilliant storytelling. Engaging from start to finish.', NOW(), NOW()),
+(12, 'The author has a unique voice. Thoroughly enjoyed it.', NOW(), NOW()),
+(13, 'The plot twists were a bit predictable. Otherwise, good read.', NOW(), NOW()),
+(14, 'A profound read. Made me reflect on many things.', NOW(), NOW()),
+(15, 'Loved the characters and the world-building.', NOW(), NOW()),
+(16, 'Not really for me. Found it a bit boring.', NOW(), NOW());
 
 INSERT INTO follows (follower_id, followed_id) VALUES
 ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12'),

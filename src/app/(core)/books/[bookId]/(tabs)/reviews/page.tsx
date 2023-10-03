@@ -18,6 +18,7 @@ import {
   fetchLike,
   fetchLikeCount,
   fetchReviews,
+  fetchReviewsCount,
   fetchSpecificRating,
   removeLike,
   upsertRating,
@@ -33,18 +34,35 @@ const ReactStars = dynamic(() => import("react-stars"), {
   ssr: false,
 })
 
-const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
+const ReviewsPage = ({
+  params,
+  searchParams,
+}: {
+  params: { bookId: string }
+  searchParams: { page: number }
+}) => {
   const supabase = createClientComponentClient()
+  const router = useRouter()
   const [reviews, setReviews] = useState<Review[]>([])
   const [users, setUsers] = useState<UserProfile[]>([])
   const [user, setUser] = useState<User | null>(null)
   const [readingStatus, setReadingStatus] = useState<readingStatus | null>(null)
   const [rating, setRating] = useState<number>(0)
   const [isReviewDisabled, setIsReviewDisabled] = useState<boolean>(true)
-
+  const [pages, setPages] = useState<number>(1)
   useEffect(() => {
     const getReviews = async () => {
-      const reviews = await fetchReviews(supabase, params.bookId)
+      const reviews = await fetchReviews(
+        supabase,
+        params.bookId,
+        searchParams.page || 1
+      )
+      const reviewsCount = await fetchReviewsCount(supabase, params.bookId)
+      setPages(Math.ceil(reviewsCount / 10))
+
+      if (Math.ceil(reviewsCount / 10) < searchParams.page) {
+        return router.replace(`/books/${params.bookId}/reviews`)
+      }
       setReviews(reviews ?? [])
       if (reviews && reviews.length > 0) {
         const usersResponse = await supabase
@@ -89,7 +107,7 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
       setReadingStatus(fetchReadingStatusResponse.data[0].status)
     }
     getReviews()
-  }, [params.bookId, supabase])
+  }, [params.bookId, supabase, searchParams.page, router])
 
   const handleSubmitRating = async (newRating: number) => {
     if (!user) {
@@ -128,10 +146,9 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
       setIsReviewDisabled(false)
       return
     }
-    console.log(upsertRatingResponse.error)
     return
   }
-
+  const currentPage = searchParams.page || 1
   return (
     <div className="mt-4 flex flex-col gap-8 sm:flex-row sm:gap-4">
       <div className="mr-5 mt-6 flex w-full flex-col gap-8 border-black sm:w-[400px]">
@@ -193,6 +210,44 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
             </div>
           )}
         </ul>
+        <div>
+          {reviews && reviews.length > 0 && (
+            <div className="flex items-center justify-center space-x-4">
+              {currentPage > 1 && (
+                <Link
+                  href={`?page=${currentPage - 1}`}
+                  className="text-muted-foreground hover:text-primary"
+                >
+                  Previous
+                </Link>
+              )}
+
+              {[...Array(pages)].map((_, idx) => (
+                <Link
+                  key={idx}
+                  href={`?page=${idx + 1}`}
+                  className={cn(
+                    "px-2 py-1 hover:text-primary ",
+                    currentPage == idx + 1
+                      ? "text-primary underline underline-offset-2"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {idx + 1}
+                </Link>
+              ))}
+
+              {currentPage < pages && (
+                <Link
+                  href={`?page=${currentPage + 1}`}
+                  className="text-muted-foreground hover:text-primary"
+                >
+                  Next
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

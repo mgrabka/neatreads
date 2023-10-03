@@ -2,13 +2,16 @@ import { SupabaseClient } from "@supabase/auth-helpers-nextjs"
 
 export const fetchReviews = async (
   supabase: SupabaseClient,
-  bookId: string
+  bookId: string,
+  page: number
 ) => {
   const fetchRatingsResponse = await supabase
     .from("ratings")
     .select("*")
     .eq("book_id", bookId)
-
+    .range((page - 1) * 10, page * 10 - 1)
+  // .range(10, 19)
+  console.log(fetchRatingsResponse)
   const ratingsArray =
     fetchRatingsResponse.data?.map((rating) => rating.id) ?? []
 
@@ -32,6 +35,18 @@ export const fetchReviews = async (
   })
 
   return reviewsArray
+}
+
+export const fetchReviewsCount = async (
+  supabase: SupabaseClient,
+  bookId: string
+) => {
+  const { count } = await supabase
+    .from("ratings")
+    .select("*", { count: "exact", head: true })
+    .eq("book_id", bookId)
+
+  return count || 0
 }
 export const fetchSpecificReview = async (
   supabase: SupabaseClient,

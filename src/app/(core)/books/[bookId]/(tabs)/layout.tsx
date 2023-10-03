@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
-import { fetchReviews } from "@/lib/books"
+import { fetchReviewsCount } from "@/lib/books"
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -26,9 +26,9 @@ const TabsLayout = ({
 
   useEffect(() => {
     const getReviewsCount = async () => {
-      const reviews = await fetchReviews(supabase, params.bookId)
-      if (reviews) {
-        setReviewsCount(reviews.length)
+      const count = await fetchReviewsCount(supabase, params.bookId)
+      if (count) {
+        setReviewsCount(count)
       }
     }
 
