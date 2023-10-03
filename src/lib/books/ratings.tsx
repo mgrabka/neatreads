@@ -1,7 +1,4 @@
-import {
-  SupabaseClient,
-  createClientComponentClient,
-} from "@supabase/auth-helpers-nextjs"
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs"
 
 export const fetchRatings = async (
   supabase: SupabaseClient,
@@ -31,4 +28,34 @@ export const fetchSpecificRating = async (
     .single()
 
   return fetchUserRatingResponse.data
+}
+
+export const upsertRating = async (
+  supabase: SupabaseClient,
+  userId: string,
+  bookId: string,
+  rating: number
+) => {
+  const upsertRatingResponse = await supabase
+    .from("ratings")
+    .upsert(
+      { book_id: bookId, user_id: userId, rating },
+      { onConflict: "book_id, user_id" }
+    )
+
+  return upsertRatingResponse
+}
+
+export const deleteSpecificRating = async (
+  supabase: SupabaseClient,
+  userId: string,
+  bookId: string
+) => {
+  const deleteRatingResponse = await supabase
+    .from("ratings")
+    .delete()
+    .eq("book_id", bookId)
+    .eq("user_id", userId)
+
+  return deleteRatingResponse
 }

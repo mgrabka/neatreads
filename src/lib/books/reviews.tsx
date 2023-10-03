@@ -53,3 +53,49 @@ export const fetchSpecificReview = async (
 
   return review
 }
+
+export const fetchLike = async (
+  supabase: SupabaseClient,
+  userId: string,
+  reviewId: number
+) => {
+  return await supabase
+    .from("reviews_likes")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("review_id", reviewId)
+}
+
+export const fetchLikeCount = async (
+  supabase: SupabaseClient,
+  reviewId: number
+) => {
+  const { count } = await supabase
+    .from("reviews_likes")
+    .select("*", { count: "exact", head: true })
+    .eq("review_id", reviewId)
+
+  return count || 0
+}
+
+export const addLike = async (
+  supabase: SupabaseClient,
+  userId: string,
+  reviewId: number
+) => {
+  return await supabase
+    .from("reviews_likes")
+    .insert([{ user_id: userId, review_id: reviewId }])
+}
+
+export const removeLike = async (
+  supabase: SupabaseClient,
+  userId: string,
+  reviewId: number
+) => {
+  return await supabase
+    .from("reviews_likes")
+    .delete()
+    .eq("user_id", userId)
+    .eq("review_id", reviewId)
+}

@@ -56,3 +56,22 @@ CREATE POLICY "Authenticated users can insert reading statuses." ON reading_stat
 CREATE POLICY "Users can update their own reading statuses." ON reading_statuses FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Users can delete their own reading statuses." ON reading_statuses FOR DELETE USING (auth.uid() = user_id);
 CREATE POLICY "Reading statuses are viewable by everyone." ON reading_statuses FOR SELECT USING (true);
+
+CREATE TABLE reviews_likes (
+    id serial PRIMARY KEY,
+    review_id serial NOT NULL REFERENCES reviews(id) ON DELETE CASCADE,
+    user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
+    updated_at timestamp with time zone NOT NULL DEFAULT now(),
+    UNIQUE(review_id, user_id)
+);
+
+CREATE INDEX idx_reviews_likes_review_id ON reviews_likes(review_id);
+CREATE INDEX idx_reviews_likes_user_id ON reviews_likes(user_id);
+
+ALTER TABLE reviews_likes ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Authenticated users can insert likes." ON reviews_likes FOR INSERT TO authenticated WITH CHECK (true);
+-- CREATE POLICY "Users can update their own likes." ON review_likes FOR UPDATE USING (auth.uid() = (SELECT user_id FROM ratings WHERE id = rating_id));
+CREATE POLICY "Users can delete their own likes." ON reviews_likes FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "Likes are viewable by everyone." ON reviews_likes FOR SELECT USING (true);

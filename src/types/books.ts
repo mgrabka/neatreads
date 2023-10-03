@@ -101,7 +101,7 @@ export interface Book {
 
 export interface Review {
   body: string
-  id: string
+  id: number
   rating: number
   rating_id: number
   created_at: string

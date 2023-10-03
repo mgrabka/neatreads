@@ -3,15 +3,25 @@
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Review, UserProfile, readingStatus } from "@/types"
 import {
   User,
   createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs"
 import Avatar from "boring-avatars"
+import { Heart } from "lucide-react"
 
-import { fetchReviews } from "@/lib/books"
-import { fetchUserRating } from "@/lib/books/fetch-user-rating"
+import {
+  addLike,
+  deleteSpecificRating,
+  fetchLike,
+  fetchLikeCount,
+  fetchReviews,
+  fetchSpecificRating,
+  removeLike,
+  upsertRating,
+} from "@/lib/books"
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Separator } from "@/components/ui/separator"
@@ -52,7 +62,11 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
 
       setUser(user)
 
-      const fetchRatingResponse = await fetchUserRating(params.bookId)
+      const fetchRatingResponse = await fetchSpecificRating(
+        supabase,
+        user.id,
+        params.bookId
+      )
 
       if (fetchRatingResponse) {
         setRating(fetchRatingResponse.rating)
@@ -91,11 +105,11 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
         )
     }
     if (newRating == rating) {
-      const deleteRatingResponse = await supabase
-        .from("ratings")
-        .delete()
-        .eq("book_id", params.bookId)
-        .eq("user_id", user.id)
+      const deleteRatingResponse = await deleteSpecificRating(
+        supabase,
+        user.id,
+        params.bookId
+      )
       if (!deleteRatingResponse.error) {
         setRating(0)
         setIsReviewDisabled(true)
@@ -103,12 +117,12 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
       }
     }
 
-    const upsertRatingResponse = await supabase
-      .from("ratings")
-      .upsert(
-        { book_id: params.bookId, user_id: user.id, rating: newRating },
-        { onConflict: "book_id, user_id" }
-      )
+    const upsertRatingResponse = await upsertRating(
+      supabase,
+      user.id,
+      params.bookId,
+      newRating
+    )
     if (!upsertRatingResponse.error) {
       setRating(newRating)
       setIsReviewDisabled(false)
@@ -185,6 +199,53 @@ const ReviewsPage = ({ params }: { params: { bookId: string } }) => {
 }
 
 const Comment = ({ username, review }: any) => {
+  const supabase = createClientComponentClient()
+  const [user, setUser] = useState<User | null>(null)
+  const [isLiked, setIsLiked] = useState<boolean>(false)
+  const [likeCount, setLikeCount] = useState<number>(0)
+  const router = useRouter()
+  useEffect(() => {
+    const fetchData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+
+      if (!user) {
+        return
+      }
+
+      setUser(user)
+
+      const fetchLikeResponse = await fetchLike(supabase, user.id, review.id)
+      if (fetchLikeResponse.data && fetchLikeResponse.data.length > 0) {
+        setIsLiked(true)
+      } else {
+        setIsLiked(false)
+      }
+      const count = await fetchLikeCount(supabase, review.id)
+
+      setLikeCount(count)
+    }
+
+    fetchData()
+  }, [supabase, review])
+
+  const handleLike = async (review: Review) => {
+    if (!user) {
+      return router.push("/auth/sign-up")
+    }
+    const fetchLikeResponse = await fetchLike(supabase, user.id, review.id)
+    if (fetchLikeResponse.data && fetchLikeResponse.data.length > 0) {
+      removeLike(supabase, user.id, review.id)
+      setIsLiked(false)
+      setLikeCount(likeCount - 1)
+    } else {
+      addLike(supabase, user.id, review.id)
+      setIsLiked(true)
+      setLikeCount(likeCount + 1)
+    }
+  }
+
   return (
     <div className="my-6 flex w-full">
       <div className="shrink-0">
@@ -225,6 +286,19 @@ const Comment = ({ username, review }: any) => {
           </div>
         </div>
         <p className="mt-2 text-justify">{review.body}</p>
+        <div className="mt-5 flex flex-row">
+          <button onClick={() => handleLike(review)}>
+            <Heart
+              className={cn(
+                isLiked
+                  ? "text-red-500"
+                  : "text-muted-foreground hover:text-primary"
+              )}
+              size={18}
+            />
+          </button>
+          <p className="ml-2 text-sm text-muted-foreground">{likeCount}</p>
+        </div>
       </div>
     </div>
   )
