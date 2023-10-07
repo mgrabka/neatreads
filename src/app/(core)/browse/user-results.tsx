@@ -1,7 +1,8 @@
+import { useState } from "react"
 import Link from "next/link"
 import { UserProfile } from "@/types"
 import Avatar from "boring-avatars"
-import { MoveRight } from "lucide-react"
+import { MoveLeft, MoveRight } from "lucide-react"
 import { useMediaQuery } from "react-responsive"
 
 import { cn } from "@/lib/utils"
@@ -10,11 +11,10 @@ import { Button, buttonVariants } from "@/components/ui/button"
 const UserResults = ({ users }: { users: UserProfile[] }) => {
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1024px)" })
   const isMediumScreen = useMediaQuery({
-    query: "(min-width: 640px) and (max-width: 1024px)",
+    query: "(min-width: 640px) and (max-width: 1023px)",
   })
 
   let displayLimit
-
   if (isDesktopOrLaptop) {
     displayLimit = 8
   } else if (isMediumScreen) {
@@ -23,14 +23,19 @@ const UserResults = ({ users }: { users: UserProfile[] }) => {
     displayLimit = 4
   }
 
-  const displayedUsersCount =
-    users.length > displayLimit ? displayLimit - 1 : displayLimit
+  const [isExpanded, setIsExpanded] = useState(false)
+  const showMoreButton = users.length > displayLimit && !isExpanded
+  const usersToDisplay = isExpanded
+    ? users
+    : users.slice(0, displayLimit - (showMoreButton ? 1 : 0))
 
   return (
     <div>
-      <ul className="flex justify-start gap-1 overflow-x-auto whitespace-nowrap">
-        {users.slice(0, displayedUsersCount).map((user) => (
-          <li key={user.user_id}>
+      <ul
+        className={`flex flex-wrap justify-start gap-1 overflow-x-auto whitespace-nowrap`}
+      >
+        {usersToDisplay.map((user) => (
+          <li key={user.user_id} className="w-[100px]">
             <Link
               href={`/user/${user.username}`}
               className={cn(
@@ -48,10 +53,11 @@ const UserResults = ({ users }: { users: UserProfile[] }) => {
             </Link>
           </li>
         ))}
-        {users.length > displayLimit && (
-          <li>
+
+        {showMoreButton && (
+          <li className="w-[100px]">
             <Button
-              onClick={() => console.log("clicked")}
+              onClick={() => setIsExpanded(true)}
               variant="ghost"
               className="flex h-[140px] w-[100px] flex-col items-center justify-start text-muted-foreground hover:text-primary"
             >
@@ -59,6 +65,20 @@ const UserResults = ({ users }: { users: UserProfile[] }) => {
                 <MoveRight size={32} />
               </div>
               <p className="mt-4">More...</p>
+            </Button>
+          </li>
+        )}
+        {isExpanded && (
+          <li className="w-[100px]">
+            <Button
+              onClick={() => setIsExpanded(false)}
+              variant="ghost"
+              className="flex h-[140px] w-[100px] flex-col items-center justify-start text-muted-foreground hover:text-primary"
+            >
+              <div className="flex h-[64px] items-center justify-center">
+                <MoveLeft size={32} />
+              </div>
+              <p className="mt-4">Less...</p>
             </Button>
           </li>
         )}

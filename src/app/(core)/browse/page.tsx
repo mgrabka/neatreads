@@ -24,7 +24,7 @@ const BrowsePage = () => {
 
   const fetchUsers = async () => {
     const fetchResponse = await fetch(
-      `${location.origin}/api/v1/users/list?q=${query}&limit=9`
+      `${location.origin}/api/v1/users/list?q=${query}&limit=24`
     )
     const results = await fetchResponse.json()
     setUserResults(results)
