@@ -37,6 +37,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.1",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-responsive": "^9.0.2",
     "react-stars": "^2.2.5",
     "sharp": "^0.31.3",
     "tailwind-merge": "^1.14.0",
