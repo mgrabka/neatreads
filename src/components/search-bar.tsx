@@ -1,13 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Search } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 
 const SearchBar = ({ initialQuery }: { initialQuery?: string }) => {
-  const [query, setQuery] = useState(initialQuery ?? "")
+  const [query, setQuery] = useState(initialQuery || "")
+
+  useEffect(() => {
+    setQuery(initialQuery ?? "")
+  }, [initialQuery])
+
   const router = useRouter()
   const handleSearch = () => {
     router.push(`/browse?q=${query}`)
@@ -21,7 +26,7 @@ const SearchBar = ({ initialQuery }: { initialQuery?: string }) => {
     <div className="relative flex w-full items-center">
       <Input
         type="search"
-        placeholder="Search books..."
+        placeholder="Search books or users..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
