@@ -7,10 +7,9 @@ import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
 const UserResults = ({ users }: { users: UserProfile[] }) => {
-  console.log(users.length)
   return (
     <div>
-      <ul className="flex justify-start gap-1">
+      <ul className="flex justify-start gap-1 overflow-x-auto whitespace-nowrap">
         {users.slice(0, users.length > 8 ? 7 : 8).map((user) => (
           <li key={user.user_id}>
             <Link

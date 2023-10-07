@@ -87,7 +87,9 @@ const BrowsePage = () => {
     <section className="grid items-center gap-6">
       <SearchBar initialQuery={query} />
       {userResults && userResults.length > 0 && (
-        <UserResults users={userResults} />
+        <div className="w-full overflow-hidden">
+          <UserResults users={userResults} />
+        </div>
       )}
       <h1 className="text-muted-foreground">
         Search Results for &ldquo;{query}&rdquo; ({bookResults?.totalItems ?? 0}
