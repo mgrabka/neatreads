@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 
 import ProfileFollowingManagement from "./profile-following-management"
+import UserCollections from "./user-collections"
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
@@ -49,7 +50,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     .eq("followed_id", profiledUser.user_id)
   return (
     <section className="grid gap-8">
-      <div className="grid grid-cols-5">
+      <div className="flex flex-col sm:grid sm:grid-cols-5">
         <div className="col-span-1">
           <Avatar
             size={96}
@@ -58,7 +59,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             colors={["#320139", "#331B3B", "#333E50", "#5C6E6E", "#F1DEBD"]}
           />
         </div>
-        <div className="col-span-3 grid gap-5">
+        <div className="col-span-3 mt-4 grid gap-5 sm:mt-0">
           <div className="grid gap-5">
             <div>
               <h1 className={cn("text-4xl", fontHeader.className)}>
@@ -82,7 +83,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             </div>
           </div>
         </div>
-        <div className="flex justify-end">
+        <div className="mt-10 flex sm:mt-0 sm:justify-end">
           {!isOwn ? (
             <ProfileFollowingManagement
               visitorId={visitor?.id}
@@ -98,14 +99,20 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
           Bookshelves
         </p>
         <Separator />
+        <div className="pt-4">
+          <UserCollections
+            user={profiledUser}
+            isOwn={isOwn}
+            supabase={supabase}
+          />
+        </div>
       </div>
-      <div>
+      {/* <div>
         <p className={cn(fontHeader.className, "pb-3 text-muted-foreground")}>
           Activity
         </p>
         <Separator />
-      </div>
-      <div></div>
+      </div> */}
     </section>
   )
 }

@@ -52,6 +52,20 @@ CREATE INDEX idx_reading_statuses_user_id ON reading_statuses(user_id);
 
 ALTER TABLE reading_statuses ENABLE ROW LEVEL SECURITY;
 
+CREATE OR REPLACE FUNCTION get_reading_status_counts(p_user_id uuid)
+RETURNS TABLE (read integer, currently_reading integer, want_to_read integer) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        COALESCE(CAST(SUM(CASE WHEN status = 'Read' THEN 1 ELSE 0 END) AS INTEGER), 0) AS read,
+        COALESCE(CAST(SUM(CASE WHEN status = 'Currently Reading' THEN 1 ELSE 0 END) AS INTEGER), 0) AS currently_reading,
+        COALESCE(CAST(SUM(CASE WHEN status = 'Want to Read' THEN 1 ELSE 0 END) AS INTEGER), 0) AS want_to_read
+    FROM reading_statuses
+    WHERE user_id = p_user_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
 CREATE POLICY "Authenticated users can insert reading statuses." ON reading_statuses FOR INSERT TO authenticated WITH CHECK (true);
 CREATE POLICY "Users can update their own reading statuses." ON reading_statuses FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Users can delete their own reading statuses." ON reading_statuses FOR DELETE USING (auth.uid() = user_id);

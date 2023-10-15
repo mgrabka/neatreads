@@ -14,7 +14,6 @@ export const fetchReviews = async (
 
   if (error) {
     console.error("Failed to fetch sorted reviews:", error)
-    return null
   }
 
   return data

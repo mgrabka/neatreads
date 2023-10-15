@@ -26,7 +26,9 @@ export const fetchSpecificRating = async (
     .eq("book_id", bookId)
     .eq("user_id", userId)
     .single()
-
+  if (fetchUserRatingResponse.error) {
+    console.log(fetchUserRatingResponse.error)
+  }
   return fetchUserRatingResponse.data
 }
 
@@ -42,7 +44,9 @@ export const upsertRating = async (
       { book_id: bookId, user_id: userId, rating },
       { onConflict: "book_id, user_id" }
     )
-
+  if (upsertRatingResponse.error) {
+    console.log(upsertRatingResponse.error)
+  }
   return upsertRatingResponse
 }
 
@@ -57,5 +61,8 @@ export const deleteSpecificRating = async (
     .eq("book_id", bookId)
     .eq("user_id", userId)
 
+  if (deleteRatingResponse.error) {
+    console.log(deleteRatingResponse.error)
+  }
   return deleteRatingResponse
 }

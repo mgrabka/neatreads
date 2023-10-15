@@ -52,16 +52,16 @@ const UserControl = async () => {
   return (
     <div className="flex flex-1 items-center justify-end space-x-4">
       <nav className="flex items-center gap-6">
-        <Link
-          href={`/user/${username}/library`}
+        {/* <Link
+          href={`/user/${username}/collections`}
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "text-muted-foreground"
           )}
         >
           <Library className="mr-2 h-6 w-6" />
-          Library
-        </Link>
+          Collections
+        </Link> */}
         <DropdownMenu>
           <DropdownMenuTrigger className="hover:grayscale">
             <Avatar
@@ -87,12 +87,12 @@ const UserControl = async () => {
                 <UserSquare2 className="mr-2 h-4 w-4" /> Profile
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={`/user/${username}/library`}>
+            {/* <DropdownMenuItem asChild>
+              <Link href={`/user/${username}/collections`}>
                 <Library className="mr-2 h-4 w-4" />
-                Library
+                Collections
               </Link>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             <DropdownMenuItem>
               <Users2 className="mr-2 h-4 w-4" />
               Friends

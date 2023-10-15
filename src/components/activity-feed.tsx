@@ -70,7 +70,7 @@ const ActivityFeed = async ({
             />
           ))
         ) : (
-          <p className="flex justify-center text-muted-foreground">
+          <p className="mt-6 flex justify-center text-muted-foreground">
             No activity yet
           </p>
         )}
