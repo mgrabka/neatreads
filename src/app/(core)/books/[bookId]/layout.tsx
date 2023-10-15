@@ -6,6 +6,7 @@ import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import BookManagement from "@/components/book-management"
 import BookStars from "@/components/book-stars"
+import NavigationBackButton from "@/components/navigation-back-button"
 
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY
 
@@ -48,6 +49,7 @@ const BookLayout = async ({
   const book: Book = await fetchBook(params.bookId)
   return (
     <section className="flex flex-col gap-8">
+      <NavigationBackButton />
       <section className="flex flex-col gap-12 sm:flex-row">
         <div className="h-[305px] w-[198px] shrink-0 overflow-hidden rounded-md border bg-white">
           <Image

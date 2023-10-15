@@ -9,6 +9,7 @@ import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import NavigationBackButton from "@/components/navigation-back-button"
 
 import ProfileFollowingManagement from "./profile-following-management"
 import UserCollections from "./user-collections"
@@ -50,6 +51,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     .eq("followed_id", profiledUser.user_id)
   return (
     <section className="grid gap-8">
+      <NavigationBackButton />
       <div className="flex flex-col sm:grid sm:grid-cols-5">
         <div className="col-span-1">
           <Avatar
