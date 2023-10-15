@@ -27,7 +27,7 @@ const SignedInHomePage = async ({ user }: { user: User }) => {
       <div className="z-20 flex max-w-[980px] flex-col items-start gap-2">
         <h1
           className={cn(
-            "text-3xl font-semibold leading-tight tracking-tighter md:text-4xl",
+            "text-3xl font-semibold leading-tight tracking-tight md:text-4xl",
             fontHeader.className
           )}
         >

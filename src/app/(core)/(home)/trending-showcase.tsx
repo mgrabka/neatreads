@@ -39,7 +39,7 @@ const TrendingShowcase = () => {
       <div className="flex items-center justify-between">
         <h1
           className={cn(
-            "text-xl font-semibold leading-tight tracking-tighter",
+            "text-xl font-semibold leading-tight tracking-tight",
             fontHeader.className
           )}
         >
@@ -102,9 +102,9 @@ const TrendingShowcase = () => {
           .map((_, idx) => (
             <div
               key={`placeholder-${idx}`}
-              className="mx-auto overflow-hidden rounded-md border bg-white"
+              className="mx-auto overflow-hidden rounded-md bg-white"
             >
-              <div className="h-[183px] w-[119px] rounded bg-gray-300"></div>
+              <div className="h-[183px] w-[119px] rounded bg-primary-foreground"></div>
             </div>
           ))}
       </div>

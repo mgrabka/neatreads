@@ -123,7 +123,9 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                     autoCorrect="off"
                     disabled={isSubmitting}
                     {...register("email")}
-                    className={`${errors.email ? "border-red-500 pr-10" : ""}`}
+                    className={`${
+                      errors.email ? "border border-red-500 pr-10" : ""
+                    }`}
                   />
                   {errors.email && (
                     <div className="-translate-y-2/5 absolute right-3 top-1/4 text-red-500">
@@ -156,7 +158,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                     disabled={isSubmitting}
                     {...register("username")}
                     className={`${
-                      errors.username ? "border-red-500 pr-10" : ""
+                      errors.username ? "border border-red-500 pr-10" : ""
                     }`}
                   />
                   {errors.username && (
@@ -190,7 +192,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                     disabled={isSubmitting}
                     {...register("password")}
                     className={`${
-                      errors.password ? "border-red-500 pr-10" : ""
+                      errors.password ? "border border-red-500 pr-10" : ""
                     }`}
                   />
                   {errors.password && (

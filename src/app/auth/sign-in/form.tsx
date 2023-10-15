@@ -79,7 +79,9 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
                     autoCorrect="off"
                     disabled={isSubmitting}
                     {...register("email")}
-                    className={`${errors.email ? "border-red-500 pr-10" : ""}`}
+                    className={`${
+                      errors.email ? "border border-red-500 pr-10" : ""
+                    }`}
                   />
                   {errors.email && (
                     <div className="-translate-y-2/5 absolute right-3 top-1/4 text-red-500">
@@ -112,7 +114,7 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
                     disabled={isSubmitting}
                     {...register("password")}
                     className={`${
-                      errors.password ? "border-red-500 pr-10" : ""
+                      errors.password ? "border border-red-500 pr-10" : ""
                     }`}
                   />
                   {errors.password && (

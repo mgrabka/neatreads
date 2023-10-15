@@ -14,7 +14,7 @@ export default function NotFound() {
         <div className="flex flex-col gap-2">
           <h1
             className={cn(
-              "text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl",
+              "text-3xl font-extrabold leading-tight tracking-tight md:text-4xl",
               fontHeader.className
             )}
           >
