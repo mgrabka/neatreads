@@ -29,21 +29,21 @@ const UserCollections = async ({
     <div className="flex flex-wrap gap-2">
       <Link
         className={cn(buttonVariants({ variant: "outline" }), "gap-2")}
-        href={`/user/${user.username}/collections/want-to-read`}
+        href={`/user/${user.username}/collections/Want to Read`}
       >
         Wants To Read
         <Badge variant="secondary">{readingStatuses.want_to_read}</Badge>
       </Link>
       <Link
         className={cn(buttonVariants({ variant: "outline" }), "gap-2")}
-        href={`/user/${user.username}/collections/currently-reading`}
+        href={`/user/${user.username}/collections/Currently Reading`}
       >
         Currently Reading
         <Badge variant="secondary">{readingStatuses.currently_reading}</Badge>
       </Link>
       <Link
         className={cn(buttonVariants({ variant: "outline" }), "gap-2")}
-        href={`/user/${user.username}/collections/read`}
+        href={`/user/${user.username}/collections/Read`}
       >
         Read <Badge variant="secondary">{readingStatuses.read}</Badge>
       </Link>
