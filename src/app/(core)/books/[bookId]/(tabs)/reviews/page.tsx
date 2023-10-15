@@ -154,7 +154,7 @@ const ReviewsPage = ({
       <div className="mr-5 mt-6 flex w-full flex-col gap-8 border-black sm:w-[400px]">
         <div className="shrink-0">
           <Avatar
-            size={30}
+            size={32}
             name={user?.id ?? undefined}
             variant="beam"
             colors={["#320139", "#331B3B", "#333E50", "#5C6E6E", "#F1DEBD"]}
@@ -306,7 +306,7 @@ const Comment = ({ username, review }: any) => {
       <div className="shrink-0">
         <Link href={`/user/${username}`}>
           <Avatar
-            size={30}
+            size={32}
             name={review.user_id}
             variant="beam"
             colors={["#320139", "#331B3B", "#333E50", "#5C6E6E", "#F1DEBD"]}

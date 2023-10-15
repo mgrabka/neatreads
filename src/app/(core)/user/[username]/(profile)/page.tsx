@@ -2,6 +2,7 @@ import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import Avatar from "boring-avatars"
+import { CalendarDays } from "lucide-react"
 
 import { Database } from "@/types/database"
 import { fontHeader } from "@/lib/fonts"
@@ -51,7 +52,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
       <div className="grid grid-cols-5">
         <div className="col-span-1">
           <Avatar
-            size={100}
+            size={96}
             name={profiledUser.user_id}
             variant="beam"
             colors={["#320139", "#331B3B", "#333E50", "#5C6E6E", "#F1DEBD"]}
@@ -63,7 +64,11 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
               <h1 className={cn("text-4xl", fontHeader.className)}>
                 {profiledUser.username}
               </h1>
-              <p className="text-muted-foreground">Joined {userJoinedAt}</p>
+              <div></div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <CalendarDays size={16} />
+                <p>Joined {userJoinedAt}</p>
+              </div>
             </div>
           </div>
           <div className="flex gap-5 ">
