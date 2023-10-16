@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     appDir: true,
+    logging: "verbose",
   },
   images: {
     remotePatterns: [

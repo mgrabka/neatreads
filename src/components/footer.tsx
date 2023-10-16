@@ -5,7 +5,7 @@ import { Facebook, Twitter } from "lucide-react"
 
 import { Database } from "@/types/database"
 
-import { Input } from "./ui/input"
+import NewsletterForm from "./newsletter-form"
 
 const Footer = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
@@ -23,7 +23,7 @@ const Footer = async () => {
               Subscribe to our newsletter to get the latest news and updates.
             </p>
           </div>
-          <Input placeholder="Email" />
+          <NewsletterForm />
         </div>
         <div className="grid grid-cols-2 gap-8 ">
           <div className="flex flex-col gap-4">

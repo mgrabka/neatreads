@@ -93,10 +93,10 @@ const UserControl = async () => {
                 Collections
               </Link>
             </DropdownMenuItem> */}
-            <DropdownMenuItem>
+            {/* <DropdownMenuItem>
               <Users2 className="mr-2 h-4 w-4" />
               Friends
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href={`/user/settings`}>
