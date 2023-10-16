@@ -9,7 +9,7 @@ import SearchBar from "./search-bar"
 const MainNav = () => {
   return (
     <div className="mr-6 flex w-full gap-6 md:gap-10">
-      <Link href="/" className="flex items-center space-x-2">
+      <Link href="/" className="flex shrink-0 items-center space-x-2">
         {/* <BookOpen className="h-6 w-6" /> */}
         <span className="inline-block font-bold">👌🏻📚 {siteConfig.name}</span>
       </Link>

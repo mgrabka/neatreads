@@ -57,7 +57,7 @@ const CollectionPage = async ({
     <div>
       <NavigationBackButton />
       <div className="flex items-center">
-        <div className={cn("my-8 text-2xl", fontHeader.className)}>
+        <div className={cn("my-8 text-4xl", fontHeader.className)}>
           {collectionName}
         </div>
         <Dot className="mx-2" size={24} />

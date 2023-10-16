@@ -18,6 +18,7 @@ const NewsletterForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(emailValidationSchema),
@@ -30,6 +31,7 @@ const NewsletterForm = () => {
       title: "Thank you for signing up!",
       description: `Please check your email to confirm: ${formData.email}`,
     })
+    return reset()
   }
 
   return (

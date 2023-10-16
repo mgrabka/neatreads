@@ -1,13 +1,15 @@
 import { cookies } from "next/headers"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import Avatar from "boring-avatars"
-import { CalendarDays } from "lucide-react"
+import { CalendarDays, Settings } from "lucide-react"
 
 import { Database } from "@/types/database"
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import { buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import NavigationBackButton from "@/components/navigation-back-button"
 
@@ -92,13 +94,21 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
               profiledUserId={profiledUser.user_id}
             />
           ) : (
-            <></>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "ghost" }),
+                "text-muted-foreground"
+              )}
+              href="/user/settings"
+            >
+              <Settings size={24} />
+            </Link>
           )}
         </div>
       </div>
       <div>
         <p className={cn(fontHeader.className, "pb-3 text-muted-foreground")}>
-          Bookshelves
+          Collections
         </p>
         <Separator />
         <div className="pt-4">

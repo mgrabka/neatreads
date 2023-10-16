@@ -11,6 +11,7 @@ ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Profiles are viewable by everyone." ON profiles FOR SELECT USING (true);
 CREATE POLICY "Everyone can insert a new profile" ON profiles FOR INSERT WITH CHECK (true);
+CREATE POLICY "Users can update their own profiles." ON profiles FOR UPDATE USING (auth.uid() = user_id);
 
 CREATE TABLE follows (
     id serial PRIMARY KEY,
