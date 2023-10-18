@@ -8,6 +8,7 @@ import { Database } from "@/types/database"
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import ActivityFeed from "@/components/activity-feed"
+import ReadingGoal from "@/components/reading-goal"
 import SearchBar from "@/components/search-bar"
 
 import TrendingShowcase from "./trending-showcase"
@@ -39,6 +40,9 @@ const SignedInHomePage = async ({ user }: { user: User }) => {
       </div>
       <div>
         <SearchBar />
+      </div>
+      <div>
+        <ReadingGoal />
       </div>
       <div className="mt-12">
         <TrendingShowcase />

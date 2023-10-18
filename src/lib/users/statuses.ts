@@ -17,3 +17,26 @@ export const fetchReadingStatusCounts = async (
 
   return data
 }
+
+export const fetchReadBooksCountForCurrentYear = async (
+  userId: string,
+  supabase: SupabaseClient
+) => {
+  const currentYear = new Date().getFullYear()
+  const { count, error } = await supabase
+    .from("reading_statuses")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("status", "Read")
+    .filter("updated_at", "gte", `${currentYear}-01-01T00:00:00Z`)
+    .filter("updated_at", "lte", `${currentYear}-12-31T23:59:59Z`)
+
+  if (error) {
+    console.log(error)
+  }
+  console.log(count)
+  if (count) {
+    return count
+  }
+  return 0
+}

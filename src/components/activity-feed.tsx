@@ -71,7 +71,7 @@ const ActivityFeed = async ({
           ))
         ) : (
           <p className="mt-6 flex justify-center text-muted-foreground">
-            No activity yet
+            No activities yet. Follow people to see their activities here.
           </p>
         )}
       </ul>
