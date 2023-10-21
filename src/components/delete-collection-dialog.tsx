@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Trash2 } from "lucide-react"
 
@@ -20,9 +20,10 @@ import {
 const DeleteCollectionDialog = ({ collectionId }: { collectionId: number }) => {
   const supabase = createClientComponentClient()
   const router = useRouter()
+  const params = useParams()
   const onContinue = async () => {
     await deleteCollectionById(collectionId, supabase)
-    return router.push("/")
+    return router.push(`/user/${params.username}`)
   }
   return (
     <div className="flex items-center">

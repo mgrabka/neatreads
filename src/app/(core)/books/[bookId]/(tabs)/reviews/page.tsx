@@ -27,8 +27,8 @@ import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Separator } from "@/components/ui/separator"
 
+import ReviewFormDialog from "../../../../../../components/review-form-dialog"
 import AnonFallback from "./anon-fallback"
-import ReviewFormDialog from "./review-form-dialog"
 
 const ReactStars = dynamic(() => import("react-stars"), {
   ssr: false,

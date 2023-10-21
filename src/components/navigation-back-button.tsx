@@ -1,18 +1,21 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { MoveLeft } from "lucide-react"
+import { ChevronLeft, MoveLeft } from "lucide-react"
+
+import { Button } from "./ui/button"
 
 const NavigationBackButton = () => {
   const router = useRouter()
   return (
-    <button
-      className="flex w-[120px] items-center space-x-2 text-sm text-muted-foreground hover:text-primary "
+    <Button
       onClick={() => router.back()}
+      variant="outline"
+      className="flex h-[40px] w-[40px] rounded-3xl p-0 text-muted-foreground hover:text-primary"
     >
-      <MoveLeft className="h-4 w-4" />
-      <span>go back</span>
-    </button>
+      <ChevronLeft size={16} />
+      {/* <MoveLeft size={16} /> */}
+    </Button>
   )
 }
 

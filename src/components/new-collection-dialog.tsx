@@ -40,7 +40,7 @@ const collectionNameValidationSchema = z.object({
     }),
 })
 
-const NewCollectionDialog = () => {
+const NewCollectionDialog = ({ setRefetch }: { setRefetch?: any }) => {
   const supabase = createClientComponentClient()
   const { toast } = useToast()
   const router = useRouter()
@@ -56,7 +56,6 @@ const NewCollectionDialog = () => {
     reValidateMode: "onSubmit",
   })
   const onSubmit = async (FormData: FormData) => {
-    console.log(FormData.collectionName)
     const {
       data: { user },
     } = await supabase.auth.getUser()
@@ -81,25 +80,35 @@ const NewCollectionDialog = () => {
       description: "Your collection has been added.",
     })
     setIsDialogOpen(false)
+    if (setRefetch != null) {
+      setRefetch((prev: boolean) => !prev)
+    }
     reset()
     return router.refresh()
   }
   return (
     <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2 text-muted-foreground">
-          Add collection <PlusCircle size={16} />
+        <Button
+          variant="outline"
+          className="flex justify-start gap-2 text-muted-foreground"
+        >
+          <PlusCircle size={16} /> Add collection
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
           <DialogTitle className={cn("text-2xl", fontHeader.className)}>
             Add a new collection
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="relative flex gap-4">
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
+          <div className="relative">
             <div className="relative w-full">
               <Input
                 id="collectionName"
@@ -129,8 +138,10 @@ const NewCollectionDialog = () => {
                 </div>
               )}
             </div>
-            <Button type="submit">Create</Button>
           </div>
+          <Button className="w-full" type="submit">
+            Create
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

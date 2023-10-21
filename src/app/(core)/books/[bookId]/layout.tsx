@@ -4,6 +4,7 @@ import { Book } from "@/types"
 
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import AddToCollectionButton from "@/components/add-to-collection-button"
 import BookManagement from "@/components/book-management"
 import BookStars from "@/components/book-stars"
 import NavigationBackButton from "@/components/navigation-back-button"
@@ -49,7 +50,10 @@ const BookLayout = async ({
   const book: Book = await fetchBook(params.bookId)
   return (
     <section className="flex flex-col gap-8">
-      <NavigationBackButton />
+      <div className="flex justify-between">
+        <NavigationBackButton />
+        <AddToCollectionButton bookId={params.bookId} />
+      </div>
       <section className="flex flex-col gap-12 sm:flex-row">
         <div className="h-[305px] w-[198px] shrink-0 overflow-hidden rounded-md border bg-white">
           <Image

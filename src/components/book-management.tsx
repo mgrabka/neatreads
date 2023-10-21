@@ -12,6 +12,7 @@ import { BookMarked, BookOpen, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
+const activeClass = "bg-accent text-primary"
 const BookManagement = ({ book }: { book: Book }) => {
   const supabase = createClientComponentClient()
   const [user, setUser] = useState<User | null>(null)
@@ -85,7 +86,7 @@ const BookManagement = ({ book }: { book: Book }) => {
           onClick={() => handleReadingStatus("Want to Read")}
           className={cn(
             "h-16 w-24 text-muted-foreground",
-            readingStatus == "Want to Read" && "border-primary text-primary"
+            readingStatus == "Want to Read" && activeClass
           )}
           variant="outline"
         >
@@ -97,8 +98,7 @@ const BookManagement = ({ book }: { book: Book }) => {
           onClick={() => handleReadingStatus("Currently Reading")}
           className={cn(
             "h-16 w-24 text-muted-foreground",
-            readingStatus == "Currently Reading" &&
-              "border-primary text-primary"
+            readingStatus == "Currently Reading" && activeClass
           )}
           variant="outline"
         >
@@ -110,7 +110,7 @@ const BookManagement = ({ book }: { book: Book }) => {
           onClick={() => handleReadingStatus("Read")}
           className={cn(
             "h-16 w-24 text-muted-foreground",
-            readingStatus == "Read" && "border-primary text-primary"
+            readingStatus == "Read" && activeClass
           )}
           variant="outline"
         >
