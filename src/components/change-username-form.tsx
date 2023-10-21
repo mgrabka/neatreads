@@ -25,7 +25,7 @@ const changeUsernameValidationSchema = z.object({
     .string()
     .min(1, "Username is required.")
     .min(3, "Username must be at least 3 characters.")
-    .max(15, "Username must be at most 20 characters."),
+    .max(25, "Username must be at most 25 characters."),
 })
 
 const ChangeUsernameForm = () => {

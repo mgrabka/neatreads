@@ -32,7 +32,11 @@ const formSchema = z.object({
     .string()
     .min(1, "Username is required.")
     .min(3, "Username must be at least 3 characters.")
-    .max(15, "Username must be at most 20 characters."),
+    .max(25, "Username must be at most 25 characters.")
+    .refine(
+      (value) => /^[a-zA-Z0-9-_]+$/.test(value),
+      "Username can only contain letters, numbers, hyphens, and underscores."
+    ),
   password: z
     .string()
     .min(1, "Password is required.")

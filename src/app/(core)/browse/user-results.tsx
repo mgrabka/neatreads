@@ -31,16 +31,14 @@ const UserResults = ({ users }: { users: UserProfile[] }) => {
 
   return (
     <div>
-      <ul
-        className={`flex flex-wrap justify-start gap-1 overflow-x-auto whitespace-nowrap`}
-      >
+      <ul className="flex flex-wrap justify-start gap-1 overflow-x-auto">
         {usersToDisplay.map((user) => (
           <li key={user.user_id} className="w-[100px]">
             <Link
               href={`/user/${user.username}`}
               className={cn(
                 buttonVariants({ variant: "ghost" }),
-                "flex h-[140px] w-[100px] flex-col items-center justify-start"
+                "flex h-[140px] w-[100px] flex-col items-center justify-start break-all"
               )}
             >
               <Avatar
@@ -49,7 +47,7 @@ const UserResults = ({ users }: { users: UserProfile[] }) => {
                 variant="beam"
                 colors={["#320139", "#331B3B", "#333E50", "#5C6E6E", "#F1DEBD"]}
               />
-              <p className="mt-4 break-all">{user.username}</p>
+              <p className="mt-4">{user.username}</p>
             </Link>
           </li>
         ))}

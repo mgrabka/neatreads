@@ -1,10 +1,11 @@
 CREATE TABLE profiles (
     id serial PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    username varchar(15) NOT NULL UNIQUE,
+    username varchar(25) NOT NULL UNIQUE,
     created_at timestamp with time zone NOT NULL DEFAULT now(),
     updated_at timestamp with time zone NOT NULL DEFAULT now(),
-    UNIQUE(user_id)
+    UNIQUE(user_id),
+    CHECK (username NOT LIKE '% %')
 );
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
