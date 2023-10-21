@@ -8,6 +8,8 @@ import { Dot } from "lucide-react"
 import { Database } from "@/types/database"
 import { fontHeader } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import DeleteCollectionDialog from "@/components/delete-collection-dialog"
+import EditCollectionDialog from "@/components/edit-collection-dialog"
 import NavigationBackButton from "@/components/navigation-back-button"
 
 const CollectionPage = async ({
@@ -23,12 +25,21 @@ const CollectionPage = async ({
     .select("user_id")
     .eq("username", username)
     .single()
-
+  const {
+    data: { user: visitor },
+  } = await supabase.auth.getUser()
   if (!fetchUserIdResponse.data) {
     return notFound()
   }
 
+  const isOwn = visitor
+    ? fetchUserIdResponse.data.user_id === visitor.id
+    : false
+
   let collection
+
+  type collectionId = null | number
+  let collectionId: collectionId = null
 
   if (
     collectionName == "Want to Read" ||
@@ -47,11 +58,22 @@ const CollectionPage = async ({
 
     collection = fetchDefaultCollectionResponse.data
   } else {
-    // todo fetch collections
-    const fetchCollectionResponse = { data: null }
-    if (!fetchCollectionResponse.data) {
+    const fetchCollectionNameResponse = await supabase
+      .from("collections")
+      .select("*")
+      .eq("name", collectionName)
+      .eq("user_id", fetchUserIdResponse.data.user_id)
+      .single()
+    if (!fetchCollectionNameResponse.data) {
       return notFound()
     }
+    collectionId = fetchCollectionNameResponse.data.id
+    const fetchBooksInCollectionResponse = await supabase
+      .from("collections_content")
+      .select("book_id")
+      .eq("collection_id", fetchCollectionNameResponse.data.id)
+
+    collection = fetchBooksInCollectionResponse.data
   }
   return (
     <div>
@@ -60,6 +82,12 @@ const CollectionPage = async ({
         <div className={cn("my-8 text-4xl", fontHeader.className)}>
           {collectionName}
         </div>
+        {isOwn && collectionId ? (
+          <div className="ml-3 flex gap-4">
+            <EditCollectionDialog collectionId={collectionId} />
+            <DeleteCollectionDialog collectionId={collectionId} />
+          </div>
+        ) : null}
         <Dot className="mx-2" size={24} />
         <div className="text-muted-foreground">
           <Link className=" hover:underline" href={`/user/${username}`}>

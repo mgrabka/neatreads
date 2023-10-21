@@ -49,7 +49,6 @@ const ReadingGoal = () => {
       if (readingGoal.error) {
         return
       }
-      console.log(readingGoal)
       setGoal(readingGoal.data.goal)
       const readBooks = await fetchReadBooksCountForCurrentYear(
         user.id,

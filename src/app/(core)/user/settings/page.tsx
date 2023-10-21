@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils"
 import { Separator } from "@/components/ui/separator"
 import NavigationBackButton from "@/components/navigation-back-button"
 
-import ChangePasswordForm from "./change-password-form"
-import ChangeUsernameForm from "./change-username-form"
-import DeleteUserDialog from "./delete-user-dialog"
+import ChangePasswordForm from "../../../../components/change-password-form"
+import ChangeUsernameForm from "../../../../components/change-username-form"
+import DeleteUserDialog from "../../../../components/delete-user-dialog"
 
 const UserSettingsPage = () => {
   return (

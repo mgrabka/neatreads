@@ -13,7 +13,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import NavigationBackButton from "@/components/navigation-back-button"
 
-import ProfileFollowingManagement from "./profile-following-management"
+import ProfileFollowingManagement from "../../../../../components/profile-following-management"
 import UserCollections from "./user-collections"
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
