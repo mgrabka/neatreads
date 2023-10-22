@@ -56,11 +56,43 @@ const ReviewFormDialog = ({
   const { toast } = useToast()
   const router = useRouter()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isReviewed, setIsReviewed] = useState(false)
+  const [reviewBody, setReviewBody] = useState("")
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
+
+  useEffect(() => {
+    const fetchRatingId = async () => {
+      if (user == null) {
+        return
+      }
+      const { data: rating } = await supabase
+        .from("ratings")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("book_id", bookId)
+        .single()
+
+      if (!rating) {
+        return
+      }
+      const { data: review } = await supabase
+        .from("reviews")
+        .select("*")
+        .eq("rating_id", rating.id)
+        .single()
+
+      console.log(review)
+      if (review) {
+        setIsReviewed(true)
+        setReviewBody(review.body)
+      }
+    }
+    fetchRatingId()
+  }, [bookId, supabase, user])
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     if (user == null) {
@@ -92,17 +124,24 @@ const ReviewFormDialog = ({
     if (submitReviewResponse.data || submitReviewResponse.status === 201) {
       router.refresh()
       toast({
-        title: "Review submitted!",
+        title: isReviewed ? "Review edited!" : "Review submitted!",
         description: "Thanks for contributing to the community.",
       })
+      setReviewBody(data.review)
     }
   }
   return (
     <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" disabled={isDisabled}>
-          <p className="px-5">Write a review</p>
-        </Button>
+        {isReviewed ? (
+          <Button disabled={isDisabled}>
+            <p className="px-5">Edit your review</p>
+          </Button>
+        ) : (
+          <Button variant="outline" disabled={isDisabled}>
+            <p className="px-5">Write a review</p>
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <Form {...form}>
@@ -110,12 +149,13 @@ const ReviewFormDialog = ({
             <div className="grid gap-6">
               <DialogHeader>
                 <DialogTitle className={cn("text-2xl", fontHeader.className)}>
-                  Add a review
+                  {isReviewed ? "Edit your review" : "Add a review"}
                 </DialogTitle>
               </DialogHeader>
               <FormField
                 control={form.control}
                 name="review"
+                defaultValue={reviewBody}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -131,7 +171,9 @@ const ReviewFormDialog = ({
                   </FormItem>
                 )}
               />
-              <Button type="submit">Add a review</Button>
+              <Button type="submit">
+                {isReviewed ? "Edit review" : "Add review"}
+              </Button>
             </div>
           </form>
         </Form>
