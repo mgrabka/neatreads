@@ -56,6 +56,7 @@ const SignedInHomePage = async ({ user }: { user: User }) => {
         >
           Latest Activity
         </h1>
+        {/* @ts-expect-error Server Component*/}
         <ActivityFeed user={user} shouldListFollowed={true} />
       </div>
     </section>

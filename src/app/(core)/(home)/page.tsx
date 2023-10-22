@@ -15,7 +15,7 @@ const HomePage = async () => {
   if (!user) {
     return <AnonHomePage />
   }
-
+  /* @ts-expect-error Server Component*/
   return <SignedInHomePage user={user} />
 }
 

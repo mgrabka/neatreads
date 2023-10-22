@@ -9,6 +9,7 @@ const CoreLayout = ({ children }: LayoutProps) => {
       <SiteHeader />
       <div className="container mt-10 flex-1 md:w-[800px] lg:w-[900px]">
         <div className="min-h-screen pb-8 md:py-10 ">{children}</div>
+        {/* @ts-expect-error Server Component*/}
         <Footer />
       </div>
     </div>

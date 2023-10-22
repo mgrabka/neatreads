@@ -64,6 +64,7 @@ const ActivityFeed = async ({
       <ul>
         {activities && activities.length > 0 ? (
           activities?.map((activity) => (
+            /* @ts-expect-error Server Component*/
             <ActivityItem
               activity={activity}
               trackedProfiles={trackedProfiles}

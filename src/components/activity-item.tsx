@@ -33,6 +33,7 @@ const ActivityItem = async ({ activity }: any) => {
             {activity.did_to_user_id ? (
               <ActionToUserDescription originUser={originUser} />
             ) : (
+              /* @ts-expect-error Server Component*/
               <ActionToBookDescription
                 originUser={originUser}
                 activity={activity}

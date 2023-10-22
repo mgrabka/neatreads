@@ -112,6 +112,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         </p>
         <Separator />
         <div className="pt-4">
+          {/* @ts-expect-error Server Component*/}
           <UserCollections
             user={profiledUser}
             isOwn={isOwn}
