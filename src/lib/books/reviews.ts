@@ -23,11 +23,18 @@ export const fetchReviewsCount = async (
   supabase: SupabaseClient,
   bookId: string
 ) => {
-  const { count } = await supabase
+  const { data } = await supabase
     .from("ratings")
-    .select("*", { count: "exact", head: true })
+    .select("id")
     .eq("book_id", bookId)
-
+  if (!data) return 0
+  const { count } = await supabase
+    .from("reviews")
+    .select("*", { count: "exact", head: true })
+    .in(
+      "rating_id",
+      data?.map((rating) => rating.id)
+    )
   return count || 0
 }
 export const fetchSpecificReview = async (
