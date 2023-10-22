@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Check, PlusCircle } from "lucide-react"
 
@@ -28,6 +29,7 @@ const AddToCollectionButton = ({ bookId }: { bookId: string }) => {
   const supabase = createClientComponentClient()
   const { toast } = useToast()
   const [collections, setCollections] = useState<any>([])
+  const router = useRouter()
   useEffect(() => {
     const fetchCollections = async () => {
       const {
@@ -67,7 +69,7 @@ const AddToCollectionButton = ({ bookId }: { bookId: string }) => {
   const handleAddToCollection = async (collectionId: number) => {
     const { data: user } = await supabase.auth.getUser()
     if (!user) {
-      return
+      return router.push("/auth/sign-up")
     }
 
     const isAdded = bookInCollections[collectionId]

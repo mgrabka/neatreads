@@ -12,7 +12,7 @@ import { BookMarked, BookOpen, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-const activeClass = "bg-accent text-primary"
+const activeClass = "border-primary bg-accent text-primary"
 const BookManagement = ({ book }: { book: Book }) => {
   const supabase = createClientComponentClient()
   const [user, setUser] = useState<User | null>(null)

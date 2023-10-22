@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { PenSquare } from "lucide-react"
@@ -76,7 +77,10 @@ const ReadingGoal = () => {
             <EditReadingGoalDialog goal={goal} setGoal={setGoal} />
           </p>
         </div>
-        <Progress value={(progress / goal) * 100} className="red w-full" />
+        <Progress
+          value={progress / goal <= 1 ? (progress / goal) * 100 : 100}
+          className="red w-full"
+        />
       </div>
     </div>
   )
@@ -97,6 +101,7 @@ const EditReadingGoalDialog = ({
   const supabase = createClientComponentClient()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { toast } = useToast()
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -114,7 +119,7 @@ const EditReadingGoalDialog = ({
     } = await supabase.auth.getUser()
 
     if (!user) {
-      return
+      return router.push("/auth/sign-up")
     }
 
     const { data: _, error } = await supabase

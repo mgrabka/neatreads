@@ -70,8 +70,9 @@ const NewCollectionDialog = ({ setRefetch }: { setRefetch?: any }) => {
     ])
     if (error) {
       toast({
-        title: "Error",
-        description: "Something went wrong.",
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "Couldn't add a new collection.",
       })
       return
     }

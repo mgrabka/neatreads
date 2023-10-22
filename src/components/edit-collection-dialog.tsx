@@ -74,8 +74,9 @@ const EditCollectionDialog = ({ collectionId }: { collectionId: number }) => {
 
     if (error) {
       toast({
-        title: "Error",
-        description: "Something went wrong.",
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "Couldn't edit this collection.",
       })
       return
     }
