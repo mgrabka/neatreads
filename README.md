@@ -1,21 +1,60 @@
-# next-template
+# Neatreads
 
-A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
+This project is built with Next.js 13, utilizing app router with route handlers & dynamic routes, and Google API.
 
-## Usage
+### 🚀 Features
 
-```bash
-npx create-next-app -e https://github.com/shadcn/next-template
-```
+- 🌟 **Reviews and Ratings**
 
-## Features
+- 📚 **Reading status**
 
-- Next.js 13 App Directory
-- Radix UI Primitives
-- Tailwind CSS
-- Icons from [Lucide](https://lucide.dev)
-- Dark mode with `next-themes`
-- Tailwind CSS class sorting, merging and linting.
+- 🏆 **Reading goals**
+
+- 🗂 **Collections**
+
+- 🤵 **User Profiles**
+  
+- 👥 **Follows**
+
+- 🔎 **Search** (querying users and books at once)
+
+## Local setup
+
+### Prerequisites
+
+- Ensure you have Docker installed and running in the background.
+
+### Setup Instructions
+
+1. Install project dependencies:
+
+    ```bash
+    pnpm i
+    ```
+
+2. Start Supabase:
+
+    ```bash
+    supabase start
+    ```
+
+3. Run the project in preview mode:
+
+    ```bash
+    pnpm run preview
+    ```
+
+4. Access the application locally at [http://localhost:3000](http://localhost:3000). (default)*
+
+### Local Email Testing
+
+When testing locally, emails won't be sent to your address. You have to access inbucket at:
+
+[http://localhost:54324](http://localhost:54324) (default)*
+
+### Disclaimer *
+
+*Please note that ports may vary, check output of ``supabase start`` to know for sure.*
 
 ## License
 
