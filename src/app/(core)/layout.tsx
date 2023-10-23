@@ -3,6 +3,8 @@ import { LayoutProps } from "@/types"
 import Footer from "@/components/footer"
 import SiteHeader from "@/components/site-header"
 
+export const runtime = "edge"
+
 const CoreLayout = ({ children }: LayoutProps) => {
   return (
     <div className="relative flex min-h-screen flex-col">
