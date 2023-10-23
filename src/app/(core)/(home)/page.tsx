@@ -7,7 +7,11 @@ import AnonHomePage from "./anon-page"
 import SignedInHomePage from "./signed-in-page"
 
 const HomePage = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   const {
     data: { user },
   } = await supabase.auth.getUser()

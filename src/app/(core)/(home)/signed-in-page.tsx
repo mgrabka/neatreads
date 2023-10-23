@@ -14,7 +14,11 @@ import SearchBar from "@/components/search-bar"
 import TrendingShowcase from "./trending-showcase"
 
 const SignedInHomePage = async ({ user }: { user: User }) => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   const {
     data: { username },
   } = (await supabase

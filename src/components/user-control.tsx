@@ -19,7 +19,11 @@ import { buttonVariants } from "./ui/button"
 import SignOutButton from "./ui/sign-out-button"
 
 const UserControl = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   const {
     data: { user },
   } = await supabase.auth.getUser()

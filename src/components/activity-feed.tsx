@@ -16,7 +16,11 @@ const ActivityFeed = async ({
   user,
   shouldListFollowed = false,
 }: ActivityFeedProps) => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   let trackedUsers = [user.id]
 
   if (shouldListFollowed) {

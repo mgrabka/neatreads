@@ -8,7 +8,11 @@ import { Database } from "@/types/database"
 import NewsletterForm from "./newsletter-form"
 
 const Footer = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   const {
     data: { user },
   } = await supabase.auth.getUser()

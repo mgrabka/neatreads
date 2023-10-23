@@ -11,7 +11,11 @@ import StarsRating from "@/components/ui/stars-rating"
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY
 
 const ActivityItem = async ({ activity }: any) => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   const { data: originUser } = await supabase
     .from("profiles")
     .select("username, user_id")
@@ -61,7 +65,11 @@ const ActionToUserDescription = ({ originUser }: any) => {
 }
 
 const ActionToBookDescription = async ({ originUser, activity }: any) => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   const targetBookId = activity.did_to_book_id
 
   const response = await fetch(

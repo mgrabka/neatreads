@@ -21,7 +21,11 @@ const CollectionPage = async ({
 }: {
   params: { username: string; collectionName: string }
 }) => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   const collectionName = decodeURIComponent(params.collectionName)
   const username = params.username
   const fetchUserIdResponse = await supabase

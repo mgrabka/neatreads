@@ -17,7 +17,11 @@ import ProfileFollowingManagement from "../../../../../components/profile-follow
 import UserCollections from "./user-collections"
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const cookieStore = cookies()
+
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  })
   const fetchUserProfileResponse = await supabase
     .from("profiles")
     .select("*")
