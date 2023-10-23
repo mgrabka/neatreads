@@ -26,24 +26,30 @@ This project is built with Next.js 13, utilizing app router with route handlers 
 
 ### Setup Instructions
 
-1. Install project dependencies:
+1. Checkout to the "local" branch:
+
+    ```bash
+    git checkout local
+    ```
+
+2. Install project dependencies:
 
     ```bash
     pnpm i
     ```
 
-2. Start Supabase:
+3. Start Supabase:
 
     ```bash
     supabase start
     ```
 
-3. Run the project in preview mode:
+4. Run the project in preview mode:
 
     ```bash
     pnpm run preview
     ```
-
+    
 4. Access the application locally at [http://localhost:3000](http://localhost:3000). (default)*
 
 ### Local Email Testing
