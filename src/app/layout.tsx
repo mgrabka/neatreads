@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import TailwindIndicator from "@/components/tailwind-indicator"
 
+export const runtime = "edge"
+
 export const dynamic = "force-dynamic"
 export const metadata: Metadata = {
   title: {

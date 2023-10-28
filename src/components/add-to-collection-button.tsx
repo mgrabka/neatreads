@@ -75,7 +75,6 @@ const AddToCollectionButton = ({ bookId }: { bookId: string }) => {
     const isAdded = bookInCollections[collectionId]
 
     if (isAdded) {
-      // If the book is already added, remove it
       const { error } = await supabase
         .from("collections_content")
         .delete()
@@ -95,7 +94,6 @@ const AddToCollectionButton = ({ bookId }: { bookId: string }) => {
         description: "Book removed from collection.",
       })
     } else {
-      // If the book is not added, add it
       const { error } = await supabase
         .from("collections_content")
         .insert([{ collection_id: collectionId, book_id: bookId }])
@@ -113,12 +111,29 @@ const AddToCollectionButton = ({ bookId }: { bookId: string }) => {
         description: "Book added to collection.",
       })
     }
-    setRefetch((prev) => !prev) // Toggle refetch to refresh collections and presence data
+    setRefetch((prev) => !prev)
   }
+  const handleButtonPress = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      setIsDialogOpen(false)
+      return router.push("/auth/sign-up")
+    }
+
+    setIsDialogOpen(true)
+  }
+
   return (
     <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2 text-muted-foreground">
+        <Button
+          variant="outline"
+          onClick={handleButtonPress}
+          className="gap-2 text-muted-foreground"
+        >
           <PlusCircle size={16} />
           Add to collection
         </Button>
